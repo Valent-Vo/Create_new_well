@@ -363,7 +363,19 @@
             
             document.getElementById('previewContent').textContent = previewContent;
         }
-
+        
+        // Копирование текста в буфер обмена
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const previewContent = document.getElementById('previewContent').textContent;
+            navigator.clipboard.writeText(previewContent).then(function() {
+                const btn = document.getElementById('copyBtn');
+                btn.textContent = 'Скопировано!';
+                setTimeout(function() {
+                    btn.textContent = 'Скопировать текст';
+                }, 2000);
+            });
+        });
+        
         // Отправка письма через Outlook
         document.getElementById('sendBtn').addEventListener('click', function () {
             updatePreview(); // Обновим предпросмотр
@@ -413,11 +425,15 @@
 Спасибо!`;
 
             // Формируем ссылку mailto
-            const subject = "Запрос на создание скважины";
-            const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            const ccList = [
+                document.getElementById('cc1').checked ? 'moshkin@lukoil.com' : '',
+                document.getElementById('cc2').checked ? 'voynilenko@lukoil.com' : '',
+                document.getElementById('cc3').checked ? 'kaverzin@lukoil.com' : ''
+            ].filter(Boolean).join(',');
 
-            // Открытие почтового клиента
-            window.location.href = mailtoLink;
+            const mailtoLink = `mailto:?subject=Создание скважины на сервере Лукойл&body=${encodeURIComponent(body)}${ccList ? '&cc=' + encodeURIComponent(ccList) : ''}`;
+
+            window.location.href = mailtoLink; // Открытие почтового клиента
         });
     </script>
 </body>
