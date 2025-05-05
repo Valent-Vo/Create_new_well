@@ -377,40 +377,41 @@
         });
         
         // Отправка письма через Outlook
-        document.getElementById('sendBtn').addEventListener('click', function () {
-    updatePreview(); // Обновим предпросмотр
+       document.getElementById("sendBtn").addEventListener("click", function () {
+      updatePreview(); // обновляем содержимое
 
-    const wellPair = document.getElementById('wellPair').value;
-    const constructionDate = document.getElementById('constructionDate').value;
-    const region = document.getElementById('region').value;
-    const customerDepartment = document.getElementById('customerDepartment').value;
-    const field = document.getElementById('field').value;
-    const licenseArea = document.getElementById('licenseArea').value;
-    const cluster = document.getElementById('cluster').value;
-    const well = document.getElementById('well').value;
-    const purpose = document.getElementById('purpose').value;
-    const wellType = document.getElementById('wellType').value;
-    const fluidType = document.getElementById('fluidType').value;
-    const rig = document.getElementById('rig').value;
+      const wellPair = document.getElementById("wellPair").value;
+      const constructionDate = document.getElementById("constructionDate").value;
+      const region = document.getElementById("region").value;
+      const customerDepartment = document.getElementById("customerDepartment").value;
+      const field = document.getElementById("field").value;
+      const licenseArea = document.getElementById("licenseArea").value;
+      const cluster = document.getElementById("cluster").value;
+      const well = document.getElementById("well").value;
+      const purpose = document.getElementById("purpose").value;
+      const wellType = document.getElementById("wellType").value;
+      const fluidType = document.getElementById("fluidType").value;
+      const rig = document.getElementById("rig").value;
 
-    let formattedDate = '';
-    if (constructionDate) {
+      let formattedDate = "";
+      if (constructionDate) {
         const dateObj = new Date(constructionDate);
-        formattedDate = dateObj.toLocaleString('ru-RU', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
+        formattedDate = dateObj.toLocaleString("ru-RU", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
         });
-    }
+      }
 
-    // Формируем тело письма
-    const body = `Добрый день, коллеги!
+      const subject = encodeURIComponent("Создание скважины на сервере Лукойл");
+      const body = encodeURIComponent(`Добрый день, коллеги!
+
 Прошу создать скважину в GОreport на сервере Лукойл-Западная Сибирь.
 Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной ${wellPair} в репорте.
 
-Дата и время начала строительства: ${formattedDate}
+Дата начала строительства: ${formattedDate}
 Область: ${region}
 Подразделение заказчика: ${customerDepartment}
 Месторождение: ${field}
@@ -422,21 +423,17 @@
 Тип добываемого флюида: ${fluidType}
 Буровая установка: ${rig}
 
-Спасибо!`;
+Спасибо!`);
 
-    // Кому отправляем
-    const to = 'someone@example.com'; // замените на нужный адрес
+      const cc = [];
+      if (document.getElementById("cc1").checked) cc.push("moshkin@example.com");
+      if (document.getElementById("cc2").checked) cc.push("voynilenko@example.com");
+      if (document.getElementById("cc3").checked) cc.push("kaverzin@example.com");
 
-    // Копия (CC)
-    let cc = [];
-    if (document.getElementById('cc1').checked) cc.push('k.moshkin@example.com');
-    if (document.getElementById('cc2').checked) cc.push('v.voinilenko@example.com');
-    if (document.getElementById('cc3').checked) cc.push('v.kaverzin@example.com');
+      const mailtoLink = `mailto:?subject=${subject}&body=${body}&cc=${cc.join(",")}`;
 
-    const mailtoLink = `mailto:${to}?cc=${cc.join(',')}&subject=Создание скважины&body=${encodeURIComponent(body)}`;
-
-    // Открываем почтовое приложение
-    window.location.href = mailtoLink;
-});
+      window.location.href = mailtoLink;
+    });
+  </script>
 </body>
 </html>
