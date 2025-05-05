@@ -386,27 +386,49 @@
         }
         
         // Функция для формирования письма в Outlook
-        function generateEmail() {
-            const well = document.getElementById('well').value;
-            const cluster = document.getElementById('cluster').value;
-            const field = document.getElementById('field').value;
-            
-            const subject = `Cоздание скважины ${well}, куст ${cluster}, месторождение ${field} на сервере`;
-            
-            const previewText = document.getElementById('preview').textContent.replace('Скопировать текст', '').trim();
-            
-            // Получаем список получателей копии
-            let ccRecipients = [];
-            if (document.getElementById('recipient1').checked) ccRecipients.push('kmoshkin@geosteering.ru');
-            if (document.getElementById('recipient2').checked) ccRecipients.push('vvoynilenko@geosteering.ru');
-            if (document.getElementById('recipient3').checked) ccRecipients.push('vkaverzin@geosteering.ru');
-            
-            // Формируем mailto ссылку
-            const mailtoLink = `mailto:support@geosteering.ru?cc=${ccRecipients.join(',')}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(previewText)}`;
-            
-            // Открываем клиент почты
-            window.location.href = mailtoLink;
-        }
+function generateEmail() {
+    const well = document.getElementById('well').value;
+    const cluster = document.getElementById('cluster').value;
+    const field = document.getElementById('field').value;
+    
+    if (!well || !cluster || !field) {
+        alert('Пожалуйста, заполните поля "Скважина", "Куст" и "Месторождение"');
+        return;
+    }
+    
+    const subject = `Cоздание скважины ${well}, куст ${cluster}, месторождение ${field} на сервере`;
+    
+    const previewText = document.getElementById('preview').textContent.replace('Скопировать текст', '').trim();
+    
+    // Получаем список получателей копии
+    let ccRecipients = [];
+    if (document.getElementById('recipient1').checked) ccRecipients.push('kmoshkin@geosteering.ru');
+    if (document.getElementById('recipient2').checked) ccRecipients.push('vvoynilenko@geosteering.ru');
+    if (document.getElementById('recipient3').checked) ccRecipients.push('vkaverzin@geosteering.ru');
+    
+    // Формируем mailto ссылку
+    const mailtoLink = `mailto:support@geosteering.ru?cc=${ccRecipients.join(',')}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(previewText)}`;
+    
+    // Пытаемся открыть почтовый клиент
+    try {
+        // Создаем скрытую ссылку и кликаем по ней
+        const link = document.createElement('a');
+        link.href = mailtoLink;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Если не сработало, показываем сообщение
+        setTimeout(() => {
+            if (!document.hidden) {
+                alert('Почтовый клиент не открылся автоматически. Пожалуйста, скопируйте текст и отправьте письмо вручную.');
+            }
+        }, 500);
+    } catch (e) {
+        alert('Произошла ошибка при попытке открыть почтовый клиент: ' + e.message);
+    }
+}
         
         // Добавляем обработчики событий
         document.querySelectorAll('input, select').forEach(element => {
