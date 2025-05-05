@@ -1,249 +1,357 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Создание скважины</title>
-  <link rel="stylesheet" href="https://unpkg.com/sanitize.css" />
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #f9f9f9;
-      color: #1d1d1f;
-      padding: 20px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    h1, h2 {
-      text-align: center;
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: 500;
-    }
-    input[type="text"], select, input[type="datetime-local"] {
-      width: 100%;
-      padding: 10px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      margin-top: 5px;
-    }
-    textarea {
-      width: 100%;
-      height: 200px;
-      padding: 10px;
-      font-size: 14px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      margin-top: 10px;
-    }
-    .checkbox-group {
-      margin-top: 30px;
-    }
-    .checkbox-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    .checkbox-item label {
-      margin-left: 10px;
-      font-weight: normal;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #007aff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    #previewHeader {
-      margin-top: 40px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание скважины на сервере Лукойл</title>
+    <style>
+        :root {
+            --system-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --primary-color: #007AFF;
+            --secondary-color: #F5F5F7;
+            --border-color: #D1D1D6;
+            --text-color: #1C1C1E;
+            --secondary-text: #636366;
+        }
+        
+        body {
+            font-family: var(--system-font);
+            color: var(--text-color);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #FBFBFD;
+            line-height: 1.5;
+        }
+        
+        h1, h2 {
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 18px;
+        }
+        
+        h2 {
+            font-size: 18px;
+            margin-top: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        input[type="text"], 
+        input[type="datetime-local"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: var(--system-font);
+            font-size: 16px;
+            background-color: white;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+        }
+        
+        .preview-box {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            background-color: white;
+            margin-top: 20px;
+            white-space: pre-line;
+            position: relative;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .copy-btn:hover {
+            background-color: #E5E5EA;
+        }
+        
+        .checkbox-group {
+            margin-top: 30px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .checkbox-item input {
+            margin-right: 10px;
+        }
+        
+        .send-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 30px;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .send-btn:hover {
+            background-color: #0066CC;
+        }
+    </style>
 </head>
 <body>
-  <h1>Создание скважины на сервере Лукойл</h1>
-  <form id="wellForm">
-    <p>Добрый день, коллеги!<br>
-    Прошу создать скважину в GOreport на сервере Лукойл-Западная Сибирь.<br>
-    Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной
-    <input type="text" id="neighborWell" placeholder="Соседняя скважина" required> в репорте.</p>
-
-    <label>Дата и время начала строительства скважины</label>
-    <input type="datetime-local" id="startDate">
-
-    <label>Область</label>
-    <select id="region">
-      <option>ХМАО</option>
-      <option>ЯНАО</option>
-    </select>
-
-    <label>Компания-заказчик</label>
-    <input type="text" value="ООО &quot;ЛУКОЙЛ-Западная Сибирь&quot;" disabled>
-
-    <label>Подразделение заказчика</label>
-    <select id="division">
-      <option>ТПП "Когалымнефтегаз"</option>
-      <option>ТПП "Лангепаснефтегаз"</option>
-      <option>ТПП "Покачевнефтегаз"</option>
-      <option>ТПП "Ямалнефтегаз"</option>
-    </select>
-
-    <label>Месторождение</label>
-    <select id="field">
-      <option>им. А. Усольцева</option>
-      <option>Ватьеганское</option>
-      <option>Восточно-Икилорское</option>
-      <option>Восточно-Янчинское</option>
-      <option>Даниловское</option>
-      <option>Западно-Тазовское</option>
-      <option>Кечимовское</option>
-      <option>Когалымское</option>
-      <option>Кочевское</option>
-      <option>Курраганское</option>
-      <option>Кустовое</option>
-      <option>Лас-Еганское</option>
-      <option>Локосовское</option>
-      <option>Марталлеровское</option>
-      <option>Мишаевское</option>
-      <option>Нивагальское</option>
-      <option>Нонг-Еганское</option>
-      <option>Пайтыхское</option>
-      <option>Повховское</option>
-      <option>Покачевское</option>
-      <option>Пякяхинское</option>
-      <option>Северо-Кочевское</option>
-      <option>Северо-Покачевское</option>
-      <option>Северо-Ягунское</option>
-      <option>Тевлинско-Русскинское</option>
-      <option>Южно-Покачеевское</option>
-      <option>Южно-Ягунское</option>
-      <option>Яхлинское</option>
-    </select>
-
-    <label>Лицензионный участок</label>
-    <select id="license">
-      <option>Имилорский</option>
-      <option>Ватьеганский</option>
-      <option>Восточно-Икилорский</option>
-      <option>Восточно-Янчинский</option>
-      <option>Даниловский</option>
-      <option>Западно-Тазовский</option>
-      <option>Кечимовский</option>
-      <option>Северо-Когалымский</option>
-      <option>Кочевской</option>
-      <option>Курраганский</option>
-      <option>Кустовой</option>
-      <option>Лас-Еганский</option>
-      <option>Локосовский</option>
-      <option>Марталлеровский</option>
-      <option>Мишаевский</option>
-      <option>Нивагальский</option>
-      <option>Нонг-Еганский</option>
-      <option>Пайтыхский</option>
-      <option>Повховский</option>
-      <option>Покачевский</option>
-      <option>Пякяхинский</option>
-      <option>Северо-Кочевской</option>
-      <option>Северо-Покачевский</option>
-      <option>Северо-Ягунский</option>
-      <option>Тевлинско-Русскинской</option>
-      <option>Южно-Покачеевский</option>
-      <option>Южно-Ягунский</option>
-      <option>Яхлинский</option>
-    </select>
-
-    <label>Куст</label>
-    <input type="text" id="cluster">
-
-    <label>Скважина</label>
-    <input type="text" id="well">
-
-    <label>Назначение</label>
-    <select id="purpose">
-      <option>Добывающая</option>
-      <option>Нагнетательная</option>
-      <option>Водозаборная</option>
-    </select>
-
-    <label>Тип скважины</label>
-    <select id="wellType">
-      <option>ГС</option>
-      <option>ННС</option>
-      <option>МЗС</option>
-      <option>МЗС2</option>
-      <option>МЗС3</option>
-      <option>МЗС4</option>
-      <option>МЗС5</option>
-    </select>
-
-    <label>Тип добываемого флюида</label>
-    <select id="fluidType">
-      <option>Нефть</option>
-      <option>Газ</option>
-      <option>Газоконденсат</option>
-      <option>Вода</option>
-    </select>
-
-    <label>Буровая установка</label>
-    <select id="rig">
-      <option>БУ 5000-320 ЭК-БМЧ</option>
-      <option>БУ ЭБМ К-320 Кливер</option>
-      <option>БУ 200 Кливер</option>
-      <option>БК-200Э-БМ-ЦК</option>
-      <option>ILS-250Е</option>
-      <option>ZJ 40DB</option>
-    </select>
-
-    <h2 id="previewHeader">Предпросмотр письма</h2>
-    <textarea id="preview" readonly></textarea>
-    <button type="button" onclick="copyPreview()">Скопировать текст</button>
-
-    <div class="checkbox-group">
-      <h2>Копия письма</h2>
-      <div class="checkbox-item"><input type="checkbox" id="kmoshkin" checked> <label for="kmoshkin">Константин Мошкин</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="vvoynilenko" checked> <label for="vvoynilenko">Валентин Войниленко</label></div>
-      <div class="checkbox-item"><input type="checkbox" id="vkaverzin" checked> <label for="vkaverzin">Владимир Каверзин</label></div>
+    <h1>Создание скважины на сервере Лукойл</h1>
+    
+    <div class="form-group">
+        <p>Добрый день, коллеги!</p>
+        <p>Прошу создать скважину в GОreport на сервере Лукойл-Западная Сибирь</p>
+        <p>Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной <input type="text" id="wellWith" placeholder="введите номер скважины"> в репорте.</p>
     </div>
-    <button type="button" onclick="sendEmail()">Сформировать письмо</button>
-  </form>
+    
+    <div class="form-group">
+        <label for="constructionDate">Дата и время начала строительства скважины (ориентировочная)</label>
+        <input type="datetime-local" id="constructionDate">
+    </div>
+    
+    <div class="form-group">
+        <label for="region">Область</label>
+        <select id="region">
+            <option value="ХМАО" selected>ХМАО</option>
+            <option value="ЯНАО">ЯНАО</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="customerCompany">Компания-заказчик</label>
+        <input type="text" id="customerCompany" value='ООО "ЛУКОЙЛ-Западная Сибирь"' readonly>
+    </div>
+    
+    <div class="form-group">
+        <label for="customerDepartment">Подразделение заказчика</label>
+        <select id="customerDepartment">
+            <option value="ТПП \"Покачевнефтегаз\"">ТПП "Покачевнефтегаз"</option>
+            <option value="ТПП \"Когалымнефтегаз\"">ТПП "Когалымнефтегаз"</option>
+            <option value="ТПП \"Лангепаснефтегаз\"">ТПП "Лангепаснефтегаз"</option>
+            <option value="ТПП \"Ямалнефтегаз\"">ТПП "Ямалнефтегаз"</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="field">Месторождение</label>
+        <select id="field">
+            <option value="им. А. Усольцева">им. А. Усольцева</option>
+            <option value="Ватьеганское">Ватьеганское</option>
+            <option value="Восточно-Икилорское">Восточно-Икилорское</option>
+            <option value="Восточно-Янчинское">Восточно-Янчинское</option>
+            <option value="Даниловское">Даниловское</option>
+            <option value="Западно-Тазовское">Западно-Тазовское</option>
+            <option value="Кечимовское">Кечимовское</option>
+            <option value="Когалымское">Когалымское</option>
+            <option value="Кочевское">Кочевское</option>
+            <option value="Курраганское">Курраганское</option>
+            <option value="Кустовое">Кустовое</option>
+            <option value="Лас-Еганское">Лас-Еганское</option>
+            <option value="Локосовское">Локосовское</option>
+            <option value="Марталлеровское">Марталлеровское</option>
+            <option value="Мишаевское">Мишаевское</option>
+            <option value="Нивагальское">Нивагальское</option>
+            <option value="Нонг-Еганское">Нонг-Еганское</option>
+            <option value="Пайтыхское">Пайтыхское</option>
+            <option value="Повховское">Повховское</option>
+            <option value="Покачевское">Покачевское</option>
+            <option value="Пякяхинское">Пякяхинское</option>
+            <option value="Северо-Кочевское">Северо-Кочевское</option>
+            <option value="Северо-Покачевское">Северо-Покачевское</option>
+            <option value="Северо-Ягунское">Северо-Ягунское</option>
+            <option value="Тевлинско-Русскинское">Тевлинско-Русскинское</option>
+            <option value="Южно-Покачеевское">Южно-Покачеевское</option>
+            <option value="Южно-Ягунское">Южно-Ягунское</option>
+            <option value="Яхлинское">Яхлинское</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="licenseArea">Лицензионный участок</label>
+        <select id="licenseArea">
+            <option value="Имилорский">Имилорский</option>
+            <option value="Ватьеганский">Ватьеганский</option>
+            <option value="Восточно-Икилорский">Восточно-Икилорский</option>
+            <option value="Восточно-Янчинский">Восточно-Янчинский</option>
+            <option value="Даниловский">Даниловский</option>
+            <option value="Западно-Тазовский">Западно-Тазовский</option>
+            <option value="Кечимовский">Кечимовский</option>
+            <option value="Северо-Когалымский">Северо-Когалымский</option>
+            <option value="Кочевской">Кочевской</option>
+            <option value="Курраганский">Курраганский</option>
+            <option value="Кустовой">Кустовой</option>
+            <option value="Лас-Еганский">Лас-Еганский</option>
+            <option value="Локосовский">Локосовский</option>
+            <option value="Марталлеровский">Марталлеровский</option>
+            <option value="Мишаевский">Мишаевский</option>
+            <option value="Нивагальский">Нивагальский</option>
+            <option value="Нонг-Еганский">Нонг-Еганский</option>
+            <option value="Пайтыхский">Пайтыхский</option>
+            <option value="Повховский">Повховский</option>
+            <option value="Покачевский">Покачевский</option>
+            <option value="Пякяхинский">Пякяхинский</option>
+            <option value="Северо-Кочевской">Северо-Кочевской</option>
+            <option value="Северо-Покачевский">Северо-Покачевский</option>
+            <option value="Северо-Ягунский">Северо-Ягунский</option>
+            <option value="Тевлинско-Русскинской">Тевлинско-Русскинской</option>
+            <option value="Южно-Покачеевский">Южно-Покачеевский</option>
+            <option value="Южно-Ягунский">Южно-Ягунский</option>
+            <option value="Яхлинский">Яхлинский</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="cluster">Куст</label>
+        <input type="text" id="cluster" placeholder="введите номер куста">
+    </div>
+    
+    <div class="form-group">
+        <label for="well">Скважина</label>
+        <input type="text" id="well" placeholder="введите номер скважины">
+    </div>
+    
+    <div class="form-group">
+        <label for="purpose">Назначение</label>
+        <select id="purpose">
+            <option value="Добывающая" selected>Добывающая</option>
+            <option value="Нагнетательная">Нагнетательная</option>
+            <option value="Водозаборная">Водозаборная</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="wellType">Тип скважины</label>
+        <select id="wellType">
+            <option value="ГС" selected>ГС</option>
+            <option value="ННС">ННС</option>
+            <option value="МЗС">МЗС</option>
+            <option value="МЗС2">МЗС2</option>
+            <option value="МЗС3">МЗС3</option>
+            <option value="МЗС4">МЗС4</option>
+            <option value="МЗС5">МЗС5</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="fluidType">Тип добываемого флюида</label>
+        <select id="fluidType">
+            <option value="Нефть" selected>Нефть</option>
+            <option value="Газ">Газ</option>
+            <option value="Газоконденсат">Газоконденсат</option>
+            <option value="Вода">Вода</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="rig">Буровая установка</label>
+        <select id="rig">
+            <option value="БУ 5000-320 ЭК-БМЧ">БУ 5000-320 ЭК-БМЧ</option>
+            <option value="БУ ЭБМ К-320 Кливер">БУ ЭБМ К-320 Кливер</option>
+            <option value="БУ 200 Кливер">БУ 200 Кливер</option>
+            <option value="БК-200Э-БМ-ЦК">БК-200Э-БМ-ЦК</option>
+            <option value="ILS-250Е">ILS-250Е</option>
+            <option value="ZJ 40DB">ZJ 40DB</option>
+        </select>
+    </div>
+    
+    <h2>Предпросмотр письма</h2>
+    <div class="preview-box" id="previewBox">
+        <button class="copy-btn" id="copyBtn">Скопировать текст</button>
+        <div id="previewContent"></div>
+    </div>
+    
+    <div class="checkbox-group">
+        <h2>Копия письма</h2>
+        <div class="checkbox-item">
+            <input type="checkbox" id="kmoshkin" checked>
+            <label for="kmoshkin">Константин Мошкин</label>
+        </div>
+        <div class="checkbox-item">
+            <input type="checkbox" id="vvoynilenko" checked>
+            <label for="vvoynilenko">Валентин Войниленко</label>
+        </div>
+        <div class="checkbox-item">
+            <input type="checkbox" id="vkaverzin" checked>
+            <label for="vkaverzin">Владимир Каверзин</label>
+        </div>
+    </div>
+    
+    <button class="send-btn" id="sendBtn">Сформировать письмо</button>
+    
+    <script>
+        // Функция для обновления предпросмотра письма
+        function updatePreview() {
+            const wellWith = document.getElementById('wellWith').value;
+            const constructionDate = document.getElementById('constructionDate').value;
+            const region = document.getElementById('region').value;
+            const customerCompany = document.getElementById('customerCompany').value;
+            const customerDepartment = document.getElementById('customerDepartment').value;
+            const field = document.getElementById('field').value;
+            const licenseArea = document.getElementById('licenseArea').value;
+            const cluster = document.getElementById('cluster').value;
+            const well = document.getElementById('well').value;
+            const purpose = document.getElementById('purpose').value;
+            const wellType = document.getElementById('wellType').value;
+            const fluidType = document.getElementById('fluidType').value;
+            const rig = document.getElementById('rig').value;
+            
+            // Форматирование даты
+            let formattedDate = '';
+            if (constructionDate) {
+                const dateObj = new Date(constructionDate);
+                const day = dateObj.getDate().toString().padStart(2, '0');
+                const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+                const year = dateObj.getFullYear();
+                const hours = dateObj.getHours().toString().padStart(2, '0');
+                const minutes = dateObj.getMinutes().toString().padStart(2, '0');
+                formattedDate = `${day}.${month}.${year} ${hours}:${minutes}`;
+            }
+            
+            const previewContent = `Добрый день, коллеги!
+Прошу создать скважину в GОreport на сервере Лукойл-Западная Сибирь
+Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной ${wellWith} в репорте.
 
-  <script>
-    const form = document.getElementById('wellForm');
-    const preview = document.getElementById('preview');
-    form.addEventListener('input', updatePreview);
-
-    function updatePreview() {
-      const neighbor = document.getElementById('neighborWell').value;
-      const startDate = document.getElementById('startDate').value;
-      const region = document.getElementById('region').value;
-      const division = document.getElementById('division').value;
-      const field = document.getElementById('field').value;
-      const license = document.getElementById('license').value;
-      const cluster = document.getElementById('cluster').value;
-      const well = document.getElementById('well').value;
-      const purpose = document.getElementById('purpose').value;
-      const wellType = document.getElementById('wellType').value;
-      const fluidType = document.getElementById('fluidType').value;
-      const rig = document.getElementById('rig').value;
-
-      const msg = `Добрый день, коллеги!
-Прошу создать скважину в GOreport на сервере Лукойл-Западная Сибирь.
-Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной ${neighbor} в репорте.
-
-Дата и время начала строительства скважины (ориентировочная): ${startDate}
+Дата и время начала строительства скважины (ориентировочная): ${formattedDate}
 Область: ${region}
-Компания-заказчик: ООО "ЛУКОЙЛ-Западная Сибирь"
-Подразделение заказчика: ${division}
+Компания-заказчик: ${customerCompany}
+Подразделение заказчика: ${customerDepartment}
 Месторождение: ${field}
-Лицензионный участок: ${license}
+Лицензионный участок: ${licenseArea}
 Куст: ${cluster}
 Скважина: ${well}
 Назначение: ${purpose}
@@ -252,29 +360,58 @@
 Буровая установка: ${rig}
 
 Спасибо!`;
-      preview.value = msg;
-    }
-
-    function copyPreview() {
-      preview.select();
-      document.execCommand('copy');
-    }
-
-    function sendEmail() {
-      const well = document.getElementById('well').value;
-      const cluster = document.getElementById('cluster').value;
-      const field = document.getElementById('field').value;
-      const body = encodeURIComponent(preview.value);
-
-      let cc = [];
-      if (document.getElementById('kmoshkin').checked) cc.push('kmoshkin@geosteering.ru');
-      if (document.getElementById('vvoynilenko').checked) cc.push('vvoynilenko@geosteering.ru');
-      if (document.getElementById('vkaverzin').checked) cc.push('vkaverzin@geosteering.ru');
-
-      const subject = encodeURIComponent(`Создание скважины '${well}, ${cluster}, ${field}' на сервере`);
-      const mailto = `mailto:support@geosteering.ru?subject=${subject}&cc=${cc.join(',')}&body=${body}`;
-      window.location.href = mailto;
-    }
-  </script>
+            
+            document.getElementById('previewContent').textContent = previewContent;
+        }
+        
+        // Обработчик кнопки копирования
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const previewContent = document.getElementById('previewContent').textContent;
+            navigator.clipboard.writeText(previewContent).then(function() {
+                alert('Текст скопирован в буфер обмена');
+            }, function() {
+                alert('Не удалось скопировать текст');
+            });
+        });
+        
+        // Обработчик кнопки формирования письма
+        document.getElementById('sendBtn').addEventListener('click', function() {
+            const well = document.getElementById('well').value;
+            const cluster = document.getElementById('cluster').value;
+            const field = document.getElementById('field').value;
+            
+            // Получаем список email для копии
+            let ccEmails = [];
+            if (document.getElementById('kmoshkin').checked) {
+                ccEmails.push('kmoshkin@geosteering.ru');
+            }
+            if (document.getElementById('vvoynilenko').checked) {
+                ccEmails.push('vvoynilenko@geosteering.ru');
+            }
+            if (document.getElementById('vkaverzin').checked) {
+                ccEmails.push('vkaverzin@geosteering.ru');
+            }
+            
+            const subject = `Cоздание скважины ${well}, ${cluster}, ${field} на сервере`;
+            const body = document.getElementById('previewContent').textContent;
+            const cc = ccEmails.join(';');
+            
+            // Формируем mailto ссылку
+            const mailtoLink = `mailto:support@geosteering.ru?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}&cc=${encodeURIComponent(cc)}`;
+            
+            // Открываем почтовый клиент
+            window.location.href = mailtoLink;
+        });
+        
+        // Обновляем предпросмотр при изменении любых полей
+        const allInputs = document.querySelectorAll('input, select');
+        allInputs.forEach(input => {
+            input.addEventListener('change', updatePreview);
+            input.addEventListener('input', updatePreview);
+        });
+        
+        // Инициализируем предпросмотр при загрузке
+        updatePreview();
+    </script>
 </body>
 </html>
