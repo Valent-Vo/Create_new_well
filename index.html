@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Создание скважины на сервере Лукойл</title>
+  <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'SF Pro Display', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 40px;
+      color: #000;
+    }
+    h1, h2 {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    label, select, input, textarea {
+      display: block;
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .checkbox-list {
+      margin-top: 40px;
+    }
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .checkbox-item input {
+      margin-right: 10px;
+    }
+    #preview {
+      white-space: pre-wrap;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 20px;
+      min-height: 200px;
+      margin-bottom: 20px;
+      background-color: #fff;
+    }
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #copyBtn {
+      background-color: #ccc;
+      margin-bottom: 20px;
+    }
+    #sendBtn {
+      background-color: #0072C6;
+      color: #fff;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Создание скважины на сервере Лукойл</h1>
+  <form id="wellForm">
+    <p>Добрый день, коллеги!<br>
+    Прошу создать скважину в GОreport на сервере Лукойл-Западная Сибирь<br>
+    Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной
+    <input type="text" id="nearWell" placeholder="Название соседней скважины"> в репорте.</p>
+
+    <label>Дата и время начала строительства</label>
+    <input type="datetime-local" id="startDate">
+
+    <label>Область</label>
+    <select id="region">
+      <option selected>ХМАО</option>
+      <option>ЯНАО</option>
+    </select>
+
+    <label>Компания-заказчик</label>
+    <input type="text" value="ООО 'ЛУКОЙЛ-Западная Сибирь'" disabled>
+
+    <label>Подразделение заказчика</label>
+    <select id="division">
+      <option>ТПП "Покачевнефтегаз"</option>
+      <option>ТПП "Когалымнефтегаз"</option>
+      <option>ТПП "Лангепаснефтегаз"</option>
+      <option>ТПП "Ямалнефтегаз"</option>
+    </select>
+
+    <label>Месторождение</label>
+    <select id="field">
+      <option>Курраганское</option>
+      <option>Лас-Еганское</option>
+      <option>им. А. Усольцева</option>
+      <option>Южно-Ягунское</option>
+      <option>Тевлинско-Русскинское</option>
+      <option>Кочевское</option>
+      <option>Ватьеганское</option>
+      <option>Покачевское</option>
+      <option>Кечимовское</option>
+      <option>Мишаевское</option>
+      <option>Северо-Покачевское</option>
+      <option>Восточно-Янчинское</option>
+      <option>Пякяхинское</option>
+      <option>Яхлинское</option>
+      <option>Локосовское</option>
+      <option>Нонг-Еганское</option>
+      <option>Повховское</option>
+      <option>Кустовое</option>
+      <option>Марталлеровское</option>
+      <option>Северо-Ягунское</option>
+      <option>Когалымское</option>
+      <option>Северо-Кочевское</option>
+      <option>Западно-Тазовское</option>
+      <option>Нивагальское</option>
+      <option>Пайтыхское</option>
+      <option>Даниловское</option>
+      <option>Южно-Покачеевское</option>
+      <option>Восточно-Икилорское</option>
+    </select>
+
+    <label>Лицензионный участок</label>
+    <select id="licenseArea">
+      <option>Курраганский</option>
+      <option>Лас-Еганский</option>
+      <option>Имилорский</option>
+      <option>Южно-Ягунский</option>
+      <option>Тевлинско-Русскинской</option>
+      <option>Кочевской</option>
+      <option>Ватьеганский</option>
+      <option>Покачевский</option>
+      <option>Кечимовский</option>
+      <option>Мишаевский</option>
+      <option>Северо-Покачевский</option>
+      <option>Восточно-Янчинский</option>
+      <option>Пякяхинский</option>
+      <option>Яхлинский</option>
+      <option>Локосовский</option>
+      <option>Нонг-Еганский</option>
+      <option>Повховский</option>
+      <option>Кустовой</option>
+      <option>Марталлеровский</option>
+      <option>Северо-Ягунский</option>
+      <option>Северо-Когалымский</option>
+      <option>Северо-Кочевской</option>
+      <option>Западно-Тазовский</option>
+      <option>Нивагальский</option>
+      <option>Пайтыхский</option>
+      <option>Даниловский</option>
+      <option>Южно-Покачеевский</option>
+      <option>Восточно-Икилорский</option>
+    </select>
+
+    <!-- Остальные поля и логика продолжатся ниже -->
+
+  </form>
+
+  <h2>Предпросмотр письма</h2>
+  <div id="preview">(тут будет текст письма)</div>
+  <button id="copyBtn" onclick="copyText()">Скопировать текст</button>
+
+  <h2 style="margin-top:40px;">Копия письма</h2>
+  <div class="checkbox-list">
+    <div class="checkbox-item"><input type="checkbox" id="kmoshkin" checked><label for="kmoshkin">Константин Мошкин</label></div>
+    <div class="checkbox-item"><input type="checkbox" id="vvoynilenko" checked><label for="vvoynilenko">Валентин Войниленко</label></div>
+    <div class="checkbox-item"><input type="checkbox" id="vkaverzin" checked><label for="vkaverzin">Владимир Каверзин</label></div>
+  </div>
+
+  <button id="sendBtn" onclick="sendEmail()">Сформировать письмо</button>
+
+  <script>
+    function copyText() {
+      const preview = document.getElementById('preview');
+      navigator.clipboard.writeText(preview.innerText).then(() => alert('Скопировано!'));
+    }
+
+    function sendEmail() {
+      const well = document.getElementById('nearWell').value;
+      const field = document.getElementById('field').value;
+      const cluster = well;
+      const subject = `Cоздание скважины '${well}, ${cluster}, ${field}' на сервере`;
+
+      let cc = [];
+      if (document.getElementById('kmoshkin').checked) cc.push('kmoshkin@geosteering.ru');
+      if (document.getElementById('vvoynilenko').checked) cc.push('vvoynilenko@geosteering.ru');
+      if (document.getElementById('vkaverzin').checked) cc.push('vkaverzin@geosteering.ru');
+
+      const body = encodeURIComponent(document.getElementById('preview').innerText);
+
+      window.location.href = `mailto:support@geosteering.ru?subject=${subject}&cc=${cc.join(',')}&body=${body}`;
+    }
+  </script>
+</body>
+</html>
