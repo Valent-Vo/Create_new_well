@@ -361,24 +361,54 @@
 
 Спасибо!`;
             
-        document.getElementById('sendBtn').addEventListener('click', function () {
-    const previewText = document.getElementById('previewContent').innerText;
-
-    const to = 'support@lukoil.ru'; // Замените на нужный email
-    const ccList = [];
-    if (document.getElementById('kmoshkin').checked) ccList.push('k.moshkin@lukoil.ru');
-    if (document.getElementById('vvoynilenko').checked) ccList.push('v.voynilenko@lukoil.ru');
-    if (document.getElementById('vkaverzin').checked) ccList.push('v.kaverzin@lukoil.ru');
-
-    const subject = encodeURIComponent('Создание скважины на сервере Лукойл');
-    const body = encodeURIComponent(previewText);
-
-    const mailtoLink = `mailto:${to}?cc=${ccList.join(',')}&subject=${subject}&body=${body}`;
-    
-    // Открытие почтового клиента
-    window.location.href = mailtoLink;
-    });
-
+            document.getElementById('previewContent').textContent = previewContent;
+        }
+        
+        // Обработчик кнопки копирования
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const previewContent = document.getElementById('previewContent').textContent;
+            navigator.clipboard.writeText(previewContent).then(function() {
+                alert('Текст скопирован в буфер обмена');
+            }, function() {
+                alert('Не удалось скопировать текст');
+            });
+        });
+        
+        // Обработчик кнопки формирования письма
+        document.getElementById('sendBtn').addEventListener('click', function() {
+            const well = document.getElementById('well').value;
+            const cluster = document.getElementById('cluster').value;
+            const field = document.getElementById('field').value;
+            
+            // Получаем список email для копии
+            let ccEmails = [];
+            if (document.getElementById('kmoshkin').checked) {
+                ccEmails.push('kmoshkin@geosteering.ru');
+            }
+            if (document.getElementById('vvoynilenko').checked) {
+                ccEmails.push('vvoynilenko@geosteering.ru');
+            }
+            if (document.getElementById('vkaverzin').checked) {
+                ccEmails.push('vkaverzin@geosteering.ru');
+            }
+            
+            const subject = `Cоздание скважины ${well}, ${cluster}, ${field} на сервере`;
+            const body = document.getElementById('previewContent').textContent;
+            const cc = ccEmails.join(';');
+            
+            // Формируем mailto ссылку
+            const mailtoLink = `mailto:support@geosteering.ru?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}&cc=${encodeURIComponent(cc)}`;
+            
+            // Открываем почтовый клиент
+            window.location.href = mailtoLink;
+        });
+        
+        // Обновляем предпросмотр при изменении любых полей
+        const allInputs = document.querySelectorAll('input, select');
+        allInputs.forEach(input => {
+            input.addEventListener('change', updatePreview);
+            input.addEventListener('input', updatePreview);
+        });
         
         // Инициализируем предпросмотр при загрузке
         updatePreview();
