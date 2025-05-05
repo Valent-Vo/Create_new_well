@@ -52,7 +52,7 @@
         
         input[type="text"],
         input[type="datetime-local"],
-        select {
+        select, textarea {
             width: 100%;
             padding: 10px 15px;
             font-size: 16px;
@@ -123,6 +123,15 @@
         
         .send-btn:hover {
             background-color: #0062CC;
+        }
+        
+        .alert {
+            display: none;
+            background-color: #FFECB3;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            text-align: center;
         }
     </style>
 </head>
@@ -266,7 +275,7 @@
     <div class="form-group">
         <label for="fluidType">Тип добываемого флюида</label>
         <select id="fluidType">
-            <option value="Нефть" selected>Нефть</option>
+            <option value="Нефть" selected>Нефь</option>
             <option value="Газ">Газ</option>
             <option value="Газоконденсат">Газоконденсат</option>
             <option value="Вода">Вода</option>
@@ -292,7 +301,7 @@
     <h2>Предпросмотр письма</h2>
     <div class="preview-box" id="previewBox">
         <button class="copy-btn" id="copyBtn">Скопировать текст</button>
-        <div id="previewContent"></div>
+        <textarea id="email-preview" rows="15" style="width: 100%; border: none; resize: none;"></textarea>
     </div>
     
     <h2>Копия письма</h2>
@@ -312,10 +321,17 @@
     </div>
     
     <button class="send-btn" id="sendBtn">Сформировать письмо</button>
+    <div class="alert" id="outlookAlert">
+        <p>Если Outlook не открылся автоматически:</p>
+        <p>1. Скопируйте текст письма выше</p>
+        <p>2. Вручную создайте новое письмо в Outlook</p>
+        <p>3. Вставьте скопированный текст</p>
+        <p>4. Адрес получателя: support@geosteering.ru</p>
+    </div>
     
     <script>
-        // Функция для обновления предпросмотра
-        function updatePreview() {
+        // Функция для генерации текста письма
+        function generateEmail() {
             const wellPair = document.getElementById('wellPair').value;
             const constructionDate = document.getElementById('constructionDate').value;
             const region = document.getElementById('region').value;
@@ -342,7 +358,19 @@
                 });
             }
             
-            const previewContent = `Добрый день, коллеги!
+            // Получаем список получателей копии
+            let ccRecipients = [];
+            if (document.getElementById('cc1').checked) {
+                ccRecipients.push('kmoshkin@geosteering.ru');
+            }
+            if (document.getElementById('cc2').checked) {
+                ccRecipients.push('vvoynilenko@geosteering.ru');
+            }
+            if (document.getElementById('cc3').checked) {
+                ccRecipients.push('vkaverzin@geosteering.ru');
+            }
+            
+            const emailText = `Добрый день, коллеги!
 Прошу создать скважину в GОreport на сервере Лукойл-Западная Сибирь
 Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной ${wellPair} в репорте.
 
@@ -361,19 +389,22 @@
 
 Спасибо!`;
             
-            document.getElementById('previewContent').textContent = previewContent;
+            document.getElementById('email-preview').value = emailText;
+            return emailText;
         }
         
         // Копирование текста в буфер обмена
         document.getElementById('copyBtn').addEventListener('click', function() {
-            const previewContent = document.getElementById('previewContent').textContent;
-            navigator.clipboard.writeText(previewContent).then(function() {
-                const btn = document.getElementById('copyBtn');
-                btn.textContent = 'Скопировано!';
-                setTimeout(function() {
-                    btn.textContent = 'Скопировать текст';
-                }, 2000);
-            });
+            const emailPreview = document.getElementById('email-preview');
+            emailPreview.select();
+            document.execCommand('copy');
+            
+            // Показать уведомление о копировании
+            const btn = document.getElementById('copyBtn');
+            btn.textContent = 'Скопировано!';
+            setTimeout(function() {
+                btn.textContent = 'Скопировать текст';
+            }, 2000);
         });
         
         // Отправка письма через Outlook
@@ -381,9 +412,9 @@
             const well = document.getElementById('well').value;
             const cluster = document.getElementById('cluster').value;
             const field = document.getElementById('field').value;
+            const emailText = generateEmail();
             
             const subject = `Cоздание скважины ${well}, ${cluster}, ${field} на сервере`;
-            const body = document.getElementById('previewContent').textContent;
             
             // Получаем список получателей копии
             let ccRecipients = [];
@@ -400,17 +431,22 @@
             const ccString = ccRecipients.join(';');
             
             // Формируем mailto ссылку
-            const mailtoLink = `mailto:support@geosteering.ru?cc=${encodeURIComponent(ccString)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            const mailtoLink = `mailto:support@geosteering.ru?cc=${encodeURIComponent(ccString)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailText)}`;
             
-            // Открываем клиент почты
-            window.location.href = mailtoLink;
+            // Открываем клиент почты в новом окне/вкладке
+            const mailWindow = window.open(mailtoLink, '_blank');
+            
+            // Если не получилось открыть, показываем инструкцию
+            if (!mailWindow || mailWindow.closed || typeof mailWindow.closed == 'undefined') {
+                document.getElementById('outlookAlert').style.display = 'block';
+            }
         });
         
         // Обновляем предпросмотр при изменении любых полей
         const allInputs = document.querySelectorAll('input, select');
         allInputs.forEach(input => {
-            input.addEventListener('input', updatePreview);
-            input.addEventListener('change', updatePreview);
+            input.addEventListener('input', generateEmail);
+            input.addEventListener('change', generateEmail);
         });
         
         // Инициализируем предпросмотр при загрузке
@@ -421,7 +457,8 @@
             const localISOTime = (new Date(now - timezoneOffset)).toISOString().slice(0, 16);
             document.getElementById('constructionDate').value = localISOTime;
             
-            updatePreview();
+            // Заполняем предпросмотр при загрузке
+            generateEmail();
         });
     </script>
 </body>
