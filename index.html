@@ -299,7 +299,6 @@
             <h2>Предпросмотр письма</h2>
             <div class="preview-box" id="previewBox"></div>
             <button class="button secondary copy-button" id="copyButton">Скопировать текст</button>
-            <button class="button" id="sendButton">Отправить письмо</button>
         </div>
     </div>
 
@@ -374,14 +373,6 @@
                     this.textContent = originalText;
                 }, 2000);
             });
-        });
-        
-        // Отправка письма через Outlook
-        document.getElementById('sendButton').addEventListener('click', function() {
-            const previewText = document.getElementById('previewBox').textContent;
-            const subject = 'Создание скважины на сервере Лукойл';
-            const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(previewText)}`;
-            window.location.href = mailtoLink;
         });
         
         // Инициализация предпросмотра при загрузке
