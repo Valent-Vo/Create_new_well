@@ -3,77 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Создание скважины</title>
+    <title>Создание скважины на сервере Лукойл</title>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --system-blue: #007AFF;
+            --system-gray: #8E8E93;
+            --system-gray-light: #F2F2F7;
+            --system-gray-dark: #636366;
+        }
+        
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
             margin: 0;
             padding: 20px;
+            background-color: white;
+            color: #1C1C1E;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.5;
         }
-        .container {
-            margin: 20px 0;
-        }
-        .form-group {
+        
+        h1, h2 {
+            font-weight: 600;
+            text-align: center;
             margin-bottom: 20px;
         }
+        
+        h1 {
+            font-size: 18px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
         label {
             display: block;
-            font-weight: bold;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--system-gray-dark);
         }
-        input, select {
+        
+        input[type="text"],
+        input[type="datetime-local"],
+        select {
             width: 100%;
-            padding: 8px;
-            margin-top: 5px;
+            padding: 10px 12px;
+            border: 1px solid #D1D1D6;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            background-color: white;
+            -webkit-appearance: none;
+            appearance: none;
         }
-        #email-preview {
-            width: 100%;
-            height: 150px;
-            padding: 10px;
-            font-size: 14px;
-            margin-top: 20px;
-            font-family: 'Arial', sans-serif;
+        
+        select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
         }
-        .btn {
-            padding: 10px 20px;
-            background-color: #0078D4;
+        
+        .preview {
+            border: 1px solid #D1D1D6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            background-color: var(--system-gray-light);
+            white-space: pre-line;
+            position: relative;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--system-blue);
             color: white;
             border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
             cursor: pointer;
-            text-align: center;
+        }
+        
+        .copy-btn:hover {
+            background-color: #0062CC;
+        }
+        
+        .recipients {
+            margin: 30px 0 20px;
+        }
+        
+        .recipient-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .send-btn {
+            background-color: var(--system-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            cursor: pointer;
             margin-top: 20px;
         }
-        .btn:active {
-            background-color: #005a8a;
+        
+        .send-btn:hover {
+            background-color: #0062CC;
         }
-        .checkbox-group {
-            margin-top: 30px;
-        }
-        .checkbox-group label {
-            margin-right: 20px;
-        }
-        .preview-header {
-            font-size: 18px;
-            text-align: center;
+        
+        .spacer {
+            height: 15px;
         }
     </style>
 </head>
 <body>
-
-    <h1 class="preview-header">Создание скважины на сервере Лукойл</h1>
-
-    <div class="container">
-        <p>Добрый день, коллеги!<br>
-        Прошу создать скважину в GОreport на сервере Лукойл-Западная Сибирь. Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной (введите имя скважины) в репорте.</p>
+    <h1>Создание скважины на сервере Лукойл</h1>
+    
+    <div class="form-group">
+        <p>Добрый день, коллеги!</p>
+        <p>Прошу создать скважину в GOreport на сервере Лукойл-Западная Сибирь</p>
+        <p>Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной <input type="text" id="well-together" placeholder="введите название скважины"> в репорте.</p>
     </div>
-
-    <div class="container">
-        <label for="well">Скважина:</label>
-        <input type="text" id="well" placeholder="Введите имя скважины" oninput="generateEmail()">
+    
+    <div class="spacer"></div>
+    
+    <div class="form-group">
+        <label for="construction-date">Дата и время начала строительства скважины (ориентировочная)</label>
+        <input type="datetime-local" id="construction-date">
     </div>
-
-    <div class="container">
-        <label for="location">Месторождение:</label>
-        <select id="location" onchange="generateEmail()">
+    
+    <div class="form-group">
+        <label for="region">Область</label>
+        <select id="region">
+            <option value="ХМАО" selected>ХМАО</option>
+            <option value="ЯНАО">ЯНАО</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="company">Компания-заказчик</label>
+        <input type="text" id="company" value='ООО "ЛУКОЙЛ-Западная Сибирь"' readonly>
+    </div>
+    
+    <div class="form-group">
+        <label for="department">Подразделение заказчика</label>
+        <select id="department">
+            <option value="ТПП 'Покачевнефтегаз'">ТПП "Покачевнефтегаз"</option>
+            <option value="ТПП 'Когалымнефтегаз'">ТПП "Когалымнефтегаз"</option>
+            <option value="ТПП 'Лангепаснефтегаз'">ТПП "Лангепаснефтегаз"</option>
+            <option value="ТПП 'Ямалнефтегаз'">ТПП "Ямалнефтегаз"</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="field">Месторождение</label>
+        <select id="field">
             <option value="Курраганское">Курраганское</option>
             <option value="Лас-Еганское">Лас-Еганское</option>
             <option value="им. А. Усольцева">им. А. Усольцева</option>
@@ -104,33 +203,10 @@
             <option value="Восточно-Икилорское">Восточно-Икилорское</option>
         </select>
     </div>
-
-    <div class="container">
-        <label for="start-date">Дата и время начала строительства:</label>
-        <input type="datetime-local" id="start-date" onchange="generateEmail()">
-    </div>
-
-    <div class="container">
-        <label for="area">Область:</label>
-        <select id="area" onchange="generateEmail()">
-            <option value="ХМАО">ХМАО</option>
-            <option value="ЯНАО">ЯНАО</option>
-        </select>
-    </div>
-
-    <div class="container">
-        <label for="department">Подразделение заказчика:</label>
-        <select id="department" onchange="generateEmail()">
-            <option value="ТПП &quot;Покачевнефтегаз&quot;">ТПП "Покачевнефтегаз"</option>
-            <option value="ТПП &quot;Когалымнефтегаз&quot;">ТПП "Когалымнефтегаз"</option>
-            <option value="ТПП &quot;Лангепаснефтегаз&quot;">ТПП "Лангепаснефтегаз"</option>
-            <option value="ТПП &quot;Ямалнефтегаз&quot;">ТПП "Ямалнефтегаз"</option>
-        </select>
-    </div>
-
-    <div class="container">
-        <label for="license-area">Лицензионный участок:</label>
-        <select id="license-area" onchange="generateEmail()">
+    
+    <div class="form-group">
+        <label for="license-area">Лицензионный участок</label>
+        <select id="license-area">
             <option value="Курраганский">Курраганский</option>
             <option value="Лас-Еганский">Лас-Еганский</option>
             <option value="Имилорский">Имилорский</option>
@@ -157,103 +233,192 @@
             <option value="Нивагальский">Нивагальский</option>
             <option value="Пайтыхский">Пайтыхский</option>
             <option value="Даниловский">Даниловский</option>
-            <option value="Южно-Покачеевское">Южно-Покачеевское</option>
-            <option value="Восточно-Икилорское">Восточно-Икилорское</option>
+            <option value="Южно-Покачеевский">Южно-Покачеевский</option>
+            <option value="Восточно-Икилорский">Восточно-Икилорский</option>
         </select>
     </div>
-
-    <div class="container">
-        <label for="purpose">Назначение:</label>
-        <select id="purpose" onchange="generateEmail()">
-            <option value="Добывающая">Добывающая</option>
+    
+    <div class="form-group">
+        <label for="cluster">Куст</label>
+        <input type="text" id="cluster" placeholder="введите номер куста">
+    </div>
+    
+    <div class="form-group">
+        <label for="well">Скважина</label>
+        <input type="text" id="well" placeholder="введите номер скважины">
+    </div>
+    
+    <div class="form-group">
+        <label for="purpose">Назначение</label>
+        <select id="purpose">
+            <option value="Добывающая" selected>Добывающая</option>
             <option value="Нагнетательная">Нагнетательная</option>
             <option value="Водозаборная">Водозаборная</option>
         </select>
     </div>
-
-    <div class="container">
-        <label for="fluid-type">Тип добываемого флюида:</label>
-        <select id="fluid-type" onchange="generateEmail()">
-            <option value="Нефть">Нефть</option>
+    
+    <div class="form-group">
+        <label for="well-type">Тип скважины</label>
+        <select id="well-type">
+            <option value="ГС" selected>ГС</option>
+            <option value="ННС">ННС</option>
+            <option value="МЗС">МЗС</option>
+            <option value="МЗС2">МЗС2</option>
+            <option value="МЗС3">МЗС3</option>
+            <option value="МЗС4">МЗС4</option>
+            <option value="МЗС5">МЗС5</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="fluid-type">Тип добываемого флюида</label>
+        <select id="fluid-type">
+            <option value="Нефть" selected>Нефть</option>
             <option value="Газ">Газ</option>
             <option value="Газоконденсат">Газоконденсат</option>
             <option value="Вода">Вода</option>
         </select>
     </div>
-
-    <div class="container">
-        <label for="rig-type">Буровая установка:</label>
-        <select id="rig-type" onchange="generateEmail()">
+    
+    <div class="form-group">
+        <label for="rig">Буровая установка</label>
+        <select id="rig">
             <option value="БУ 5000-320 ЭК-БМЧ">БУ 5000-320 ЭК-БМЧ</option>
             <option value="БУ ЭБМ К-320 Кливер">БУ ЭБМ К-320 Кливер</option>
             <option value="БУ 200 Кливер">БУ 200 Кливер</option>
-            <option value="БУ ЭК-120 Кливер">БУ ЭК-120 Кливер</option>
+            <option value="БК-200Э-БМ-ЦК">БК-200Э-БМ-ЦК</option>
+            <option value="ILS-250Е">ILS-250Е</option>
+            <option value="ZJ 40DB">ZJ 40DB</option>
         </select>
     </div>
-
-    <div class="container">
-        <textarea id="email-preview" readonly></textarea>
+    
+    <div class="form-group">
+        <p>Спасибо!</p>
     </div>
-
-    <div class="checkbox-group">
-        <label for="kmoshkin">
-            <input type="checkbox" id="kmoshkin" checked onchange="generateEmail()"> Константин Мошкин
-        </label>
-        <label for="vvoynilenko">
-            <input type="checkbox" id="vvoynilenko" checked onchange="generateEmail()"> Валентин Войниленко
-        </label>
-        <label for="vkaverzin">
-            <input type="checkbox" id="vkaverzin" checked onchange="generateEmail()"> Владимир Каверзин
-        </label>
+    
+    <h2>Предпросмотр письма</h2>
+    <div class="preview" id="preview">
+        <button class="copy-btn" id="copy-btn">Скопировать текст</button>
     </div>
-
-    <button class="btn" onclick="sendEmail()">Сформировать письмо</button>
-
+    
+    <div class="recipients">
+        <h2>Копия письма</h2>
+        <div class="recipient-item">
+            <input type="checkbox" id="recipient1" checked>
+            <label for="recipient1">Константин Мошкин</label>
+        </div>
+        <div class="recipient-item">
+            <input type="checkbox" id="recipient2" checked>
+            <label for="recipient2">Валентин Войниленко</label>
+        </div>
+        <div class="recipient-item">
+            <input type="checkbox" id="recipient3" checked>
+            <label for="recipient3">Владимир Каверзин</label>
+        </div>
+    </div>
+    
+    <button class="send-btn" id="send-btn">Сформировать письмо</button>
+    
     <script>
+        // Функция для обновления предпросмотра
+        function updatePreview() {
+            const wellTogether = document.getElementById('well-together').value;
+            const constructionDate = document.getElementById('construction-date').value;
+            const region = document.getElementById('region').value;
+            const department = document.getElementById('department').value;
+            const field = document.getElementById('field').value;
+            const licenseArea = document.getElementById('license-area').value;
+            const cluster = document.getElementById('cluster').value;
+            const well = document.getElementById('well').value;
+            const purpose = document.getElementById('purpose').value;
+            const wellType = document.getElementById('well-type').value;
+            const fluidType = document.getElementById('fluid-type').value;
+            const rig = document.getElementById('rig').value;
+            
+            // Форматирование даты
+            let formattedDate = '';
+            if (constructionDate) {
+                const dateObj = new Date(constructionDate);
+                formattedDate = dateObj.toLocaleString('ru-RU', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+            
+            const previewText = `Добрый день, коллеги!
+Прошу создать скважину в GOreport на сервере Лукойл-Западная Сибирь
+Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной ${wellTogether} в репорте.
+
+Дата и время начала строительства скважины (ориентировочная) – ${formattedDate}
+Область – ${region}
+Компания-заказчик – ООО "ЛУКОЙЛ-Западная Сибирь"
+Подразделение заказчика – ${department}
+Месторождение – ${field}
+Лицензионный участок – ${licenseArea}
+Куст – ${cluster}
+Скважина – ${well}
+Назначение – ${purpose}
+Тип скважины – ${wellType}
+Тип добываемого флюида – ${fluidType}
+Буровая установка – ${rig}
+
+Спасибо!`;
+            
+            document.getElementById('preview').innerHTML = `<button class="copy-btn" id="copy-btn">Скопировать текст</button>${previewText}`;
+            
+            // Добавляем обработчик для новой кнопки копирования
+            document.getElementById('copy-btn').addEventListener('click', copyToClipboard);
+        }
+        
+        // Функция для копирования текста в буфер обмена
+        function copyToClipboard() {
+            const previewText = document.getElementById('preview').textContent.replace('Скопировать текст', '').trim();
+            navigator.clipboard.writeText(previewText).then(() => {
+                const btn = document.getElementById('copy-btn');
+                btn.textContent = 'Скопировано!';
+                setTimeout(() => {
+                    btn.textContent = 'Скопировать текст';
+                }, 2000);
+            });
+        }
+        
+        // Функция для формирования письма в Outlook
         function generateEmail() {
             const well = document.getElementById('well').value;
-            const location = document.getElementById('location').value;
-            const startDate = document.getElementById('start-date').value;
-            const area = document.getElementById('area').value;
-            const department = document.getElementById('department').value;
-            const licenseArea = document.getElementById('license-area').value;
-            const purpose = document.getElementById('purpose').value;
-            const fluidType = document.getElementById('fluid-type').value;
-            const rigType = document.getElementById('rig-type').value;
-
-            let emailBody = `
-Добрый день, коллеги!
-Прошу создать скважину в GОreport на сервере Лукойл-Западная Сибирь
-Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной ${well} в репорте.
-
-Дата и время начала строительства скважины (ориентировочная): ${startDate}
-Область: ${area}
-Компания-заказчик: ООО "ЛУКОЙЛ-Западная Сибирь"
-Подразделение заказчика: ${department}
-Месторождение: ${location}
-Лицензионный участок: ${licenseArea}
-Тип скважины: ${rigType}
-Назначение: ${purpose}
-Тип добываемого флюида: ${fluidType}
-
-Спасибо!
-`;
-
-            document.getElementById('email-preview').value = emailBody;
-        }
-
-        function sendEmail() {
-            const emailBody = document.getElementById('email-preview').value;
-            const subject = `Cоздание скважины ${document.getElementById('well').value} на сервере`;
-            const recipients = "support@geosteering.ru";
-            const cc = [];
-            if (document.getElementById('kmoshkin').checked) cc.push('kmoshkin@geosteering.ru');
-            if (document.getElementById('vvoynilenko').checked) cc.push('vvoynilenko@geosteering.ru');
-            if (document.getElementById('vkaverzin').checked) cc.push('vkaverzin@geosteering.ru');
-
-            let mailtoLink = `mailto:${recipients}?cc=${cc.join(',')}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+            const cluster = document.getElementById('cluster').value;
+            const field = document.getElementById('field').value;
+            
+            const subject = `Cоздание скважины ${well}, куст ${cluster}, месторождение ${field} на сервере`;
+            
+            const previewText = document.getElementById('preview').textContent.replace('Скопировать текст', '').trim();
+            
+            // Получаем список получателей копии
+            let ccRecipients = [];
+            if (document.getElementById('recipient1').checked) ccRecipients.push('kmoshkin@geosteering.ru');
+            if (document.getElementById('recipient2').checked) ccRecipients.push('vvoynilenko@geosteering.ru');
+            if (document.getElementById('recipient3').checked) ccRecipients.push('vkaverzin@geosteering.ru');
+            
+            // Формируем mailto ссылку
+            const mailtoLink = `mailto:support@geosteering.ru?cc=${ccRecipients.join(',')}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(previewText)}`;
+            
+            // Открываем клиент почты
             window.location.href = mailtoLink;
         }
+        
+        // Добавляем обработчики событий
+        document.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('change', updatePreview);
+            element.addEventListener('input', updatePreview);
+        });
+        
+        document.getElementById('copy-btn').addEventListener('click', copyToClipboard);
+        document.getElementById('send-btn').addEventListener('click', generateEmail);
+        
+        // Инициализируем предпросмотр при загрузке
+        updatePreview();
     </script>
 </body>
 </html>
