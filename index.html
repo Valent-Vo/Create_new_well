@@ -376,7 +376,7 @@
             });
         });
         
-        // Отправка письма через Outlook
+// Отправка письма через Outlook - УЛУЧШЕННАЯ ВЕРСИЯ
         document.getElementById('sendBtn').addEventListener('click', function() {
             const well = document.getElementById('well').value;
             const cluster = document.getElementById('cluster').value;
@@ -399,11 +399,30 @@
             
             const ccString = ccRecipients.join(';');
             
-            // Формируем mailto ссылку
+            // Вариант 1: Стандартный mailto
             const mailtoLink = `mailto:support@geosteering.ru?cc=${encodeURIComponent(ccString)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             
-            // Открываем клиент почты
-            window.location.href = mailtoLink;
+            // Вариант 2: Для Outlook (использует протокол outlookmail)
+            const outlookLink = `outlookmail:?to=support@geosteering.ru&cc=${encodeURIComponent(ccString)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Пытаемся открыть письмо разными способами
+            try {
+                // Сначала пробуем стандартный mailto
+                window.location.href = mailtoLink;
+                
+                // Если не сработало, показываем сообщение
+                setTimeout(function() {
+                    document.getElementById('outlookAlert').style.display = 'block';
+                }, 1000);
+                
+                // Альтернативный вариант для Outlook
+                setTimeout(function() {
+                    window.location.href = outlookLink;
+                }, 200);
+            } catch (e) {
+                console.error('Ошибка при открытии почтового клиента:', e);
+                document.getElementById('outlookAlert').style.display = 'block';
+            }
         });
         
         // Обновляем предпросмотр при изменении любых полей
