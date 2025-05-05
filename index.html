@@ -377,63 +377,51 @@
         });
         
         // Отправка письма через Outlook
-        document.getElementById('sendBtn').addEventListener('click', function () {
-            updatePreview(); // Обновим предпросмотр
-
-            const wellPair = document.getElementById('wellPair').value;
-            const constructionDate = document.getElementById('constructionDate').value;
-            const region = document.getElementById('region').value;
-            const customerDepartment = document.getElementById('customerDepartment').value;
-            const field = document.getElementById('field').value;
-            const licenseArea = document.getElementById('licenseArea').value;
-            const cluster = document.getElementById('cluster').value;
+        document.getElementById('sendBtn').addEventListener('click', function() {
             const well = document.getElementById('well').value;
-            const purpose = document.getElementById('purpose').value;
-            const wellType = document.getElementById('wellType').value;
-            const fluidType = document.getElementById('fluidType').value;
-            const rig = document.getElementById('rig').value;
-
-            let formattedDate = '';
-            if (constructionDate) {
-                const dateObj = new Date(constructionDate);
-                formattedDate = dateObj.toLocaleString('ru-RU', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
+            const cluster = document.getElementById('cluster').value;
+            const field = document.getElementById('field').value;
+            
+            const subject = `Cоздание скважины ${well}, ${cluster}, ${field} на сервере`;
+            const body = document.getElementById('previewContent').textContent;
+            
+            // Получаем список получателей копии
+            let ccRecipients = [];
+            if (document.getElementById('cc1').checked) {
+                ccRecipients.push('kmoshkin@geosteering.ru');
             }
-
-            // Формируем тело письма
-            const body = `Добрый день, коллеги!
-Прошу создать скважину в GОreport на сервере Лукойл-Западная Сибирь.
-Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной ${wellPair} в репорте.
-
-Дата и время начала строительства: ${formattedDate}
-Область: ${region}
-Подразделение заказчика: ${customerDepartment}
-Месторождение: ${field}
-Лицензионный участок: ${licenseArea}
-Куст: ${cluster}
-Скважина: ${well}
-Назначение: ${purpose}
-Тип скважины: ${wellType}
-Тип добываемого флюида: ${fluidType}
-Буровая установка: ${rig}
-
-Спасибо!`;
-
-            // Формируем ссылку mailto
-            const ccList = [
-                document.getElementById('cc1').checked ? 'moshkin@lukoil.com' : '',
-                document.getElementById('cc2').checked ? 'voynilenko@lukoil.com' : '',
-                document.getElementById('cc3').checked ? 'kaverzin@lukoil.com' : ''
-            ].filter(Boolean).join(',');
-
-            const mailtoLink = `mailto:?subject=Создание скважины на сервере Лукойл&body=${encodeURIComponent(body)}${ccList ? '&cc=' + encodeURIComponent(ccList) : ''}`;
-
-            window.location.href = mailtoLink; // Открытие почтового клиента
+            if (document.getElementById('cc2').checked) {
+                ccRecipients.push('vvoynilenko@geosteering.ru');
+            }
+            if (document.getElementById('cc3').checked) {
+                ccRecipients.push('vkaverzin@geosteering.ru');
+            }
+            
+            const ccString = ccRecipients.join(';');
+            
+            // Формируем mailto ссылку
+            const mailtoLink = `mailto:support@geosteering.ru?cc=${encodeURIComponent(ccString)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Открываем клиент почты
+            window.location.href = mailtoLink;
+        });
+        
+        // Обновляем предпросмотр при изменении любых полей
+        const allInputs = document.querySelectorAll('input, select');
+        allInputs.forEach(input => {
+            input.addEventListener('input', updatePreview);
+            input.addEventListener('change', updatePreview);
+        });
+        
+        // Инициализируем предпросмотр при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            // Устанавливаем текущую дату и время по умолчанию
+            const now = new Date();
+            const timezoneOffset = now.getTimezoneOffset() * 60000;
+            const localISOTime = (new Date(now - timezoneOffset)).toISOString().slice(0, 16);
+            document.getElementById('constructionDate').value = localISOTime;
+            
+            updatePreview();
         });
     </script>
 </body>
