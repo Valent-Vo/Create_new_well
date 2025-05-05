@@ -363,55 +363,42 @@
             
             document.getElementById('previewContent').textContent = previewContent;
         }
-        
-        // Копирование текста в буфер обмена
-        document.getElementById('copyBtn').addEventListener('click', function() {
-            const previewContent = document.getElementById('previewContent').textContent;
-            navigator.clipboard.writeText(previewContent).then(function() {
-                const btn = document.getElementById('copyBtn');
-                btn.textContent = 'Скопировано!';
-                setTimeout(function() {
-                    btn.textContent = 'Скопировать текст';
-                }, 2000);
-            });
-        });
-        
+
         // Отправка письма через Outlook
-       document.getElementById("sendBtn").addEventListener("click", function () {
-      updatePreview(); // обновляем содержимое
+        document.getElementById('sendBtn').addEventListener('click', function () {
+            updatePreview(); // Обновим предпросмотр
 
-      const wellPair = document.getElementById("wellPair").value;
-      const constructionDate = document.getElementById("constructionDate").value;
-      const region = document.getElementById("region").value;
-      const customerDepartment = document.getElementById("customerDepartment").value;
-      const field = document.getElementById("field").value;
-      const licenseArea = document.getElementById("licenseArea").value;
-      const cluster = document.getElementById("cluster").value;
-      const well = document.getElementById("well").value;
-      const purpose = document.getElementById("purpose").value;
-      const wellType = document.getElementById("wellType").value;
-      const fluidType = document.getElementById("fluidType").value;
-      const rig = document.getElementById("rig").value;
+            const wellPair = document.getElementById('wellPair').value;
+            const constructionDate = document.getElementById('constructionDate').value;
+            const region = document.getElementById('region').value;
+            const customerDepartment = document.getElementById('customerDepartment').value;
+            const field = document.getElementById('field').value;
+            const licenseArea = document.getElementById('licenseArea').value;
+            const cluster = document.getElementById('cluster').value;
+            const well = document.getElementById('well').value;
+            const purpose = document.getElementById('purpose').value;
+            const wellType = document.getElementById('wellType').value;
+            const fluidType = document.getElementById('fluidType').value;
+            const rig = document.getElementById('rig').value;
 
-      let formattedDate = "";
-      if (constructionDate) {
-        const dateObj = new Date(constructionDate);
-        formattedDate = dateObj.toLocaleString("ru-RU", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit"
-        });
-      }
+            let formattedDate = '';
+            if (constructionDate) {
+                const dateObj = new Date(constructionDate);
+                formattedDate = dateObj.toLocaleString('ru-RU', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
 
-      const subject = encodeURIComponent("Создание скважины на сервере Лукойл");
-      const body = encodeURIComponent(`Добрый день, коллеги!
-
+            // Формируем тело письма
+            const body = `Добрый день, коллеги!
 Прошу создать скважину в GОreport на сервере Лукойл-Западная Сибирь.
 Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной ${wellPair} в репорте.
 
-Дата начала строительства: ${formattedDate}
+Дата и время начала строительства: ${formattedDate}
 Область: ${region}
 Подразделение заказчика: ${customerDepartment}
 Месторождение: ${field}
@@ -423,17 +410,15 @@
 Тип добываемого флюида: ${fluidType}
 Буровая установка: ${rig}
 
-Спасибо!`);
+Спасибо!`;
 
-      const cc = [];
-      if (document.getElementById("cc1").checked) cc.push("moshkin@example.com");
-      if (document.getElementById("cc2").checked) cc.push("voynilenko@example.com");
-      if (document.getElementById("cc3").checked) cc.push("kaverzin@example.com");
+            // Формируем ссылку mailto
+            const subject = "Запрос на создание скважины";
+            const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-      const mailtoLink = `mailto:?subject=${subject}&body=${body}&cc=${cc.join(",")}`;
-
-      window.location.href = mailtoLink;
-    });
-  </script>
+            // Открытие почтового клиента
+            window.location.href = mailtoLink;
+        });
+    </script>
 </body>
 </html>
