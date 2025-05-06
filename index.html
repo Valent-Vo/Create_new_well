@@ -1,129 +1,96 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Создание скважины</title>
   <style>
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
       background-color: #f8f8f8;
-      padding: 40px;
-      color: #000;
+      padding: 30px;
     }
-    h1 {
+    h1, h2 {
       text-align: center;
       font-size: 18px;
-      margin-bottom: 20px;
     }
-    label, select, input, textarea {
-      display: block;
-      margin-bottom: 10px;
-      width: 100%;
+    .container {
       max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 0 auto;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
       font-size: 14px;
-      padding: 6px 8px;
-      border-radius: 8px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      font-size: 14px;
       border: 1px solid #ccc;
+      border-radius: 8px;
     }
     #preview {
       white-space: pre-wrap;
-      background-color: #fff;
-      border: 1px solid #ccc;
+      background: #fff;
       padding: 15px;
+      margin-top: 20px;
       border-radius: 12px;
-      max-width: 600px;
-      margin: 20px auto;
-      font-size: 14px;
-      line-height: 1.5;
-      position: relative;
+      border: 1px solid #ccc;
     }
-    button, .btn {
-      font-size: 14px;
-      padding: 10px 20px;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      margin-top: 10px;
+    .btn {
       display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .outlook-btn {
+      margin: 20px auto;
       background-color: #0072c6;
       color: white;
-    }
-    .copy-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #ddd;
-      font-size: 12px;
-      padding: 5px 10px;
+      border: none;
+      padding: 12px 20px;
+      font-size: 14px;
+      border-radius: 12px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-<h1>Создание скважины на сервере Лукойл</h1>
+  <div class="container">
+    <h1>Создание скважины на сервере Лукойл</h1>
 
-<label>Скважина рядом с:
-  <input type="text" id="nearWell" placeholder="Введите имя скважины" />
-</label>
+    <label>Скважина рядом с:</label>
+    <input type="text" id="nearWell" placeholder="Введите имя скважины" />
 
-<label>Дата и время начала:
-  <input type="datetime-local" id="datetime" />
-</label>
+    <label>Дата и время начала строительства:</label>
+    <input type="datetime-local" id="startDate" />
 
-<!-- Можно добавить остальные поля по аналогии -->
+    <h2>Предпросмотр письма</h2>
+    <div id="preview"></div>
 
-<h2 style="text-align:center; font-size:18px; margin-top:30px;">Предпросмотр письма</h2>
-<div id="preview">
-  <button class="copy-btn" onclick="copyText()">Скопировать текст</button>
-  <div id="previewText">
-    Добрый день, коллеги!
-    Прошу создать скважину в GOreport на сервере Лукойл-Западная Сибирь.
-    Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной [...] в репорте.
+    <button class="btn" onclick="generateMail()">Сформировать письмо</button>
   </div>
-</div>
 
-<a id="mailtoLink" class="btn outlook-btn" href="#">Сформировать письмо</a>
+  <script>
+    function generateMail() {
+      const nearWell = document.getElementById('nearWell').value || '[не указано]';
+      const startDate = document.getElementById('startDate').value || '[не указано]';
 
-<script>
-  const nearWellInput = document.getElementById('nearWell');
-  const datetimeInput = document.getElementById('datetime');
-  const previewTextDiv = document.getElementById('previewText');
-  const mailtoLink = document.getElementById('mailtoLink');
-
-  function updatePreview() {
-    const nearWell = nearWellInput.value || '[не указано]';
-    const datetime = datetimeInput.value || '[не указано]';
-
-    const text = `Добрый день, коллеги!
+      const body = `Добрый день, коллеги!
 Прошу создать скважину в GOreport на сервере Лукойл-Западная Сибирь.
 Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной ${nearWell} в репорте.
 
-Дата и время начала строительства скважины (ориентировочная): ${datetime}
+Дата и время начала строительства скважины (ориентировочная): ${startDate}
 
 Компания-заказчик – ООО "ЛУКОЙЛ-Западная Сибирь"
 
 Спасибо!`;
 
-    previewTextDiv.textContent = text;
+      document.getElementById('preview').innerText = body;
 
-    const mailBody = encodeURIComponent(text);
-    mailtoLink.href = `mailto:?subject=Создание скважины в GOreport&body=${mailBody}`;
-  }
+      const mailtoLink = `mailto:?subject=${encodeURIComponent("Создание скважины в GOreport")}&body=${encodeURIComponent(body)}`;
 
-  function copyText() {
-    navigator.clipboard.writeText(previewTextDiv.textContent)
-      .then(() => alert("Текст скопирован в буфер обмена"));
-  }
-
-  nearWellInput.addEventListener('input', updatePreview);
-  datetimeInput.addEventListener('input', updatePreview);
-</script>
+      // Открытие почтового клиента
+      window.location.href = mailtoLink;
+    }
+  </script>
 
 </body>
 </html>
