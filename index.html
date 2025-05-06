@@ -1,219 +1,129 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Создание скважины</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'SF Pro Display', sans-serif;
-      margin: 40px;
-      background-color: #f9f9f9;
+      font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background-color: #f8f8f8;
+      padding: 40px;
       color: #000;
     }
-    h1, h2 {
+    h1 {
       text-align: center;
       font-size: 18px;
+      margin-bottom: 20px;
     }
-    form {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    label {
+    label, select, input, textarea {
       display: block;
-      margin-top: 15px;
-      font-weight: 600;
-    }
-    input, select, textarea {
+      margin-bottom: 10px;
       width: 100%;
-      padding: 8px;
-      margin-top: 5px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 14px;
+      padding: 6px 8px;
+      border-radius: 8px;
       border: 1px solid #ccc;
-      border-radius: 8px;
+    }
+    #preview {
+      white-space: pre-wrap;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 12px;
+      max-width: 600px;
+      margin: 20px auto;
       font-size: 14px;
+      line-height: 1.5;
+      position: relative;
     }
-    textarea {
-      height: 300px;
-      resize: none;
-    }
-    button {
-      margin-top: 15px;
+    button, .btn {
+      font-size: 14px;
       padding: 10px 20px;
-      font-size: 14px;
+      border-radius: 12px;
       border: none;
-      border-radius: 8px;
       cursor: pointer;
+      margin-top: 10px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .outlook-btn {
+      background-color: #0072c6;
+      color: white;
     }
     .copy-btn {
-      background-color: #d0d0d0;
-    }
-    .send-btn {
-      background-color: #0072c6;
-      color: #fff;
-      display: block;
-      margin: 20px auto;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #ddd;
+      font-size: 12px;
+      padding: 5px 10px;
     }
   </style>
 </head>
 <body>
-  <h1>Создание скважины на сервере Лукойл</h1>
-  <form id="wellForm">
-    <label>Скважина должна находиться вместе со скважиной:</label>
-    <input type="text" id="withWell">
 
-    <label>Дата и время начала строительства скважины:</label>
-    <input type="datetime-local" id="startDate">
+<h1>Создание скважины на сервере Лукойл</h1>
 
-    <label>Область:</label>
-    <select id="region">
-      <option>ХМАО</option>
-      <option>ЯНАО</option>
-    </select>
+<label>Скважина рядом с:
+  <input type="text" id="nearWell" placeholder="Введите имя скважины" />
+</label>
 
-    <label>Подразделение заказчика:</label>
-    <select id="subdivision">
-      <option>ТПП "Покачевнефтегаз"</option>
-      <option>ТПП "Когалымнефтегаз"</option>
-      <option>ТПП "Лангепаснефтегаз"</option>
-      <option>ТПП "Ямалнефтегаз"</option>
-    </select>
+<label>Дата и время начала:
+  <input type="datetime-local" id="datetime" />
+</label>
 
-    <label>Месторождение:</label>
-    <select id="field">
-      <option>им. А. Усольцева</option>
-      <option>Ватьеганское</option>
-      <option>Восточно-Икилорское</option>
-      <option>Восточно-Янчинское</option>
-      <option>Даниловское</option>
-      <option>Западно-Тазовское</option>
-      <option>Кечимовское</option>
-      <option>Когалымское</option>
-      <option>Кочевское</option>
-      <option>Курраганское</option>
-      <option>Кустовое</option>
-      <option>Лас-Еганское</option>
-      <option>Локосовское</option>
-      <option>Марталлеровское</option>
-      <option>Мишаевское</option>
-      <option>Нивагальское</option>
-      <option>Нонг-Еганское</option>
-      <option>Пайтыхское</option>
-      <option>Повховское</option>
-      <option>Покачевское</option>
-      <option>Пякяхинское</option>
-      <option>Северо-Кочевское</option>
-      <option>Северо-Покачевское</option>
-      <option>Северо-Ягунское</option>
-      <option>Тевлинско-Русскинское</option>
-      <option>Южно-Покачеевское</option>
-      <option>Южно-Ягунское</option>
-      <option>Яхлинское</option>
-    </select>
+<!-- Можно добавить остальные поля по аналогии -->
 
-    <label>Лицензионный участок:</label>
-    <select id="license">
-      <option>Имилорский</option>
-      <option>Ватьеганский</option>
-      <!-- и т.д. -->
-    </select>
+<h2 style="text-align:center; font-size:18px; margin-top:30px;">Предпросмотр письма</h2>
+<div id="preview">
+  <button class="copy-btn" onclick="copyText()">Скопировать текст</button>
+  <div id="previewText">
+    Добрый день, коллеги!
+    Прошу создать скважину в GOreport на сервере Лукойл-Западная Сибирь.
+    Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной [...] в репорте.
+  </div>
+</div>
 
-    <label>Куст:</label>
-    <input type="text" id="cluster">
+<a id="mailtoLink" class="btn outlook-btn" href="#">Сформировать письмо</a>
 
-    <label>Скважина:</label>
-    <input type="text" id="well">
+<script>
+  const nearWellInput = document.getElementById('nearWell');
+  const datetimeInput = document.getElementById('datetime');
+  const previewTextDiv = document.getElementById('previewText');
+  const mailtoLink = document.getElementById('mailtoLink');
 
-    <label>Назначение:</label>
-    <select id="purpose">
-      <option>Добывающая</option>
-      <option>Нагнетательная</option>
-      <option>Водозаборная</option>
-    </select>
+  function updatePreview() {
+    const nearWell = nearWellInput.value || '[не указано]';
+    const datetime = datetimeInput.value || '[не указано]';
 
-    <label>Тип скважины:</label>
-    <select id="wellType">
-      <option>ГС</option>
-      <option>ННС</option>
-      <option>МЗС</option>
-      <option>МЗС2</option>
-    </select>
+    const text = `Добрый день, коллеги!
+Прошу создать скважину в GOreport на сервере Лукойл-Западная Сибирь.
+Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной ${nearWell} в репорте.
 
-    <label>Тип добываемого флюида:</label>
-    <select id="fluid">
-      <option>Нефть</option>
-      <option>Газ</option>
-      <option>Газоконденсат</option>
-      <option>Вода</option>
-    </select>
+Дата и время начала строительства скважины (ориентировочная): ${datetime}
 
-    <label>Буровая установка:</label>
-    <select id="rig">
-      <option>БУ 5000-320 ЭК-БМЧ</option>
-      <option>БУ ЭБМ К-320 Кливер</option>
-      <option>БУ 200 Кливер</option>
-    </select>
-
-    <h2>Предпросмотр письма</h2>
-    <textarea id="preview" readonly></textarea>
-    <button type="button" class="copy-btn" onclick="copyText()">Скопировать текст</button>
-    <button type="button" class="send-btn" onclick="sendEmail()">Сформировать письмо</button>
-  </form>
-
-  <script>
-    const inputs = document.querySelectorAll('input, select');
-
-    function updatePreview() {
-      const withWell = document.getElementById('withWell').value;
-      const startDate = document.getElementById('startDate').value;
-      const region = document.getElementById('region').value;
-      const subdivision = document.getElementById('subdivision').value;
-      const field = document.getElementById('field').value;
-      const license = document.getElementById('license').value;
-      const cluster = document.getElementById('cluster').value;
-      const well = document.getElementById('well').value;
-      const purpose = document.getElementById('purpose').value;
-      const wellType = document.getElementById('wellType').value;
-      const fluid = document.getElementById('fluid').value;
-      const rig = document.getElementById('rig').value;
-
-      const text = `Добрый день, коллеги!
-Прошу создать скважину в GОreport на сервере Лукойл-Западная Сибирь
-Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной ${withWell} в репорте.
-
-Дата и время начала строительства скважины (ориентировочная): ${startDate}
-Область: ${region}
-Компания-заказчик: ООО "ЛУКОЙЛ-Западная Сибирь"
-Подразделение заказчика: ${subdivision}
-Месторождение: ${field}
-Лицензионный участок: ${license}
-Куст: ${cluster}
-Скважина: ${well}
-Назначение: ${purpose}
-Тип скважины: ${wellType}
-Тип добываемого флюида: ${fluid}
-Буровая установка: ${rig}
+Компания-заказчик – ООО "ЛУКОЙЛ-Западная Сибирь"
 
 Спасибо!`;
 
-      document.getElementById('preview').value = text;
-    }
+    previewTextDiv.textContent = text;
 
-    inputs.forEach(input => input.addEventListener('input', updatePreview));
-    updatePreview();
+    const mailBody = encodeURIComponent(text);
+    mailtoLink.href = `mailto:?subject=Создание скважины в GOreport&body=${mailBody}`;
+  }
 
-    function copyText() {
-      const textArea = document.getElementById('preview');
-      textArea.select();
-      document.execCommand('copy');
-      alert('Текст скопирован в буфер обмена');
-    }
+  function copyText() {
+    navigator.clipboard.writeText(previewTextDiv.textContent)
+      .then(() => alert("Текст скопирован в буфер обмена"));
+  }
 
-    function sendEmail() {
-      const body = encodeURIComponent(document.getElementById('preview').value);
-      window.location.href = `mailto:?subject=Создание скважины&body=${body}`;
-    }
-  </script>
+  nearWellInput.addEventListener('input', updatePreview);
+  datetimeInput.addEventListener('input', updatePreview);
+</script>
+
 </body>
 </html>
