@@ -10,26 +10,27 @@
             --system-gray: #8E8E93;
             --system-gray-light: #F2F2F7;
             --system-gray-dark: #636366;
-            --system-white: #FFFFFF;
-            --system-black: #000000;
+            --system-label: rgba(0, 0, 0, 0.85);
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
             margin: 0;
             padding: 0;
+            color: var(--system-label);
             background-color: var(--system-gray-light);
-            color: var(--system-black);
             line-height: 1.5;
-            max-width: 100vw;
-            overflow-x: hidden;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            box-sizing: border-box;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+            margin-bottom: 40px;
         }
         
         h1 {
@@ -39,11 +40,67 @@
             margin-bottom: 20px;
         }
         
-        h2 {
+        .preview-title {
             font-size: 18px;
-            font-weight: 600;
             text-align: center;
             margin: 20px 0 15px 0;
+        }
+        
+        .preview-box {
+            border: 1px solid #D1D1D6;
+            border-radius: 8px;
+            padding: 16px;
+            background-color: white;
+            margin-bottom: 20px;
+            position: relative;
+            min-height: 200px;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--system-blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background-color: #0062CC;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 15px;
+            color: var(--system-gray-dark);
+        }
+        
+        input[type="text"],
+        input[type="datetime-local"],
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #D1D1D6;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--system-blue);
+            box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
         }
         
         .tabs {
@@ -53,18 +110,16 @@
         }
         
         .tab {
-            padding: 10px 20px;
+            padding: 10px 16px;
             cursor: pointer;
-            font-size: 17px;
-            font-weight: 500;
-            color: var(--system-gray-dark);
-            border-bottom: 3px solid transparent;
-            transition: all 0.2s;
+            font-size: 15px;
+            color: var(--system-gray);
+            border-bottom: 2px solid transparent;
         }
         
         .tab.active {
             color: var(--system-blue);
-            border-bottom-color: var(--system-blue);
+            border-bottom: 2px solid var(--system-blue);
         }
         
         .tab-content {
@@ -75,127 +130,45 @@
             display: block;
         }
         
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        label {
-            display: block;
-            font-size: 15px;
-            margin-bottom: 5px;
-            color: var(--system-gray-dark);
-        }
-        
-        input, select {
+        .divider {
+            height: 15px;
             width: 100%;
-            padding: 12px 15px;
-            font-size: 16px;
-            border: 1px solid #C7C7CC;
-            border-radius: 8px;
-            background-color: var(--system-white);
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-        
-        select {
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            background-size: 16px;
-        }
-        
-        .preview-container {
-            margin-top: 20px;
-            border: 1px solid #D1D1D6;
-            border-radius: 10px;
-            padding: 15px;
-            background-color: var(--system-white);
-        }
-        
-        .preview-content {
-            white-space: pre-wrap;
-            font-size: 15px;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-        
-        .copy-btn {
-            background-color: var(--system-blue);
-            color: var(--system-white);
-            border: none;
-            border-radius: 8px;
-            padding: 10px 15px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            display: block;
-            width: 100%;
-            text-align: center;
-            transition: background-color 0.2s;
-        }
-        
-        .copy-btn:hover {
-            background-color: #0066CC;
-        }
-        
-        .date-time-group {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .date-time-group input {
-            flex: 1;
-        }
-        
-        .well-reference {
-            font-weight: 500;
-            color: var(--system-blue);
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <h1>Создание скважины на сервере Лукойл</h1>
+        
         <div class="tabs">
-            <div class="tab active" onclick="switchTab(0)">Создание скважины</div>
-            <div class="tab" onclick="switchTab(1)">Документы по скважине</div>
-            <div class="tab" onclick="switchTab(2)">Скважина настроена</div>
+            <div class="tab active" data-tab="tab1">Создание скважины</div>
+            <div class="tab" data-tab="tab2">Документы по скважине</div>
+            <div class="tab" data-tab="tab3">Скважина настроена</div>
         </div>
         
-        <!-- Создание скважины -->
-        <div class="tab-content active" id="tab1">
-            <h1>Создание скважины на сервере Лукойл</h1>
-            
+        <!-- Tab 1: Создание скважины -->
+        <div id="tab1" class="tab-content active">
             <div class="form-group">
-                <p>Добрый день, коллеги!</p>
-                <p>Прошу создать скважину в GOreport на сервере Лукойл-Западная Сибирь</p>
-                <p>Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной <input type="text" id="referenceWell" placeholder="введите номер скважины" oninput="updatePreview()"> в репорте.</p>
+                <label>Название скважины для проверки дубликатов:</label>
+                <input type="text" id="well-name-check" placeholder="Введите название скважины">
             </div>
             
             <div class="form-group">
-                <label>Дата и время начала строительства скважины (ориентировочная)</label>
-                <div class="date-time-group">
-                    <input type="date" id="constructionDate" onchange="updatePreview()">
-                    <input type="time" id="constructionTime" onchange="updatePreview()">
-                </div>
+                <label>Дата и время начала строительства скважины:</label>
+                <input type="datetime-local" id="construction-date">
             </div>
             
             <div class="form-group">
-                <label>Область</label>
-                <select id="region" onchange="updatePreview()">
+                <label>Область:</label>
+                <select id="region">
                     <option value="ХМАО" selected>ХМАО</option>
                     <option value="ЯНАО">ЯНАО</option>
                 </select>
             </div>
             
             <div class="form-group">
-                <label>Компания-заказчик</label>
-                <input type="text" value='ООО "ЛУКОЙЛ-Западная Сибирь"' readonly>
-            </div>
-            
-            <div class="form-group">
-                <label>Подразделение заказчика</label>
-                <select id="customerDepartment" onchange="updatePreview()">
+                <label>Подразделение заказчика:</label>
+                <select id="customer-department">
                     <option value="ТПП 'Покачевнефтегаз'">ТПП "Покачевнефтегаз"</option>
                     <option value="ТПП 'Когалымнефтегаз'">ТПП "Когалымнефтегаз"</option>
                     <option value="ТПП 'Лангепаснефтегаз'">ТПП "Лангепаснефтегаз"</option>
@@ -204,8 +177,8 @@
             </div>
             
             <div class="form-group">
-                <label>Месторождение</label>
-                <select id="field" onchange="updatePreview()">
+                <label>Месторождение:</label>
+                <select id="field">
                     <option value="им. А. Усольцева">им. А. Усольцева</option>
                     <option value="Ватьеганское">Ватьеганское</option>
                     <option value="Восточно-Икилорское">Восточно-Икилорское</option>
@@ -238,8 +211,8 @@
             </div>
             
             <div class="form-group">
-                <label>Лицензионный участок</label>
-                <select id="licenseArea" onchange="updatePreview()">
+                <label>Лицензионный участок:</label>
+                <select id="license-area">
                     <option value="Имилорский">Имилорский</option>
                     <option value="Ватьеганский">Ватьеганский</option>
                     <option value="Восточно-Икилорский">Восточно-Икилорский</option>
@@ -272,18 +245,18 @@
             </div>
             
             <div class="form-group">
-                <label>Куст</label>
-                <input type="text" id="cluster" placeholder="введите номер куста" oninput="updatePreview()">
+                <label>Куст:</label>
+                <input type="text" id="cluster" placeholder="Введите номер куста">
             </div>
             
             <div class="form-group">
-                <label>Скважина</label>
-                <input type="text" id="wellNumber" placeholder="введите номер скважины" oninput="updatePreview()">
+                <label>Скважина:</label>
+                <input type="text" id="well-number" placeholder="Введите номер скважины">
             </div>
             
             <div class="form-group">
-                <label>Назначение</label>
-                <select id="purpose" onchange="updatePreview()">
+                <label>Назначение:</label>
+                <select id="purpose">
                     <option value="Добывающая" selected>Добывающая</option>
                     <option value="Нагнетательная">Нагнетательная</option>
                     <option value="Водозаборная">Водозаборная</option>
@@ -291,8 +264,8 @@
             </div>
             
             <div class="form-group">
-                <label>Тип скважины</label>
-                <select id="wellType" onchange="updatePreview()">
+                <label>Тип скважины:</label>
+                <select id="well-type">
                     <option value="ГС" selected>ГС</option>
                     <option value="ННС">ННС</option>
                     <option value="МЗС">МЗС</option>
@@ -304,8 +277,8 @@
             </div>
             
             <div class="form-group">
-                <label>Тип добываемого флюида</label>
-                <select id="fluidType" onchange="updatePreview()">
+                <label>Тип добываемого флюида:</label>
+                <select id="fluid-type">
                     <option value="Нефть" selected>Нефть</option>
                     <option value="Газ">Газ</option>
                     <option value="Газоконденсат">Газоконденсат</option>
@@ -314,8 +287,8 @@
             </div>
             
             <div class="form-group">
-                <label>Буровая установка</label>
-                <select id="rig" onchange="updatePreview()">
+                <label>Буровая установка:</label>
+                <select id="drilling-rig">
                     <option value="БУ 5000-320 ЭК-БМЧ">БУ 5000-320 ЭК-БМЧ</option>
                     <option value="БУ ЭБМ К-320 Кливер">БУ ЭБМ К-320 Кливер</option>
                     <option value="БУ 200 Кливер">БУ 200 Кливер</option>
@@ -325,164 +298,185 @@
                 </select>
             </div>
             
-            <p>Спасибо!</p>
+            <div class="divider"></div>
             
-            <h2>Предпросмотр письма</h2>
-            <div class="preview-container">
-                <div class="preview-content" id="previewContent">
-                    Добрый день, коллеги!
-                    Прошу создать скважину в GOreport на сервере Лукойл-Западная Сибирь
-                    Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной [скважина] в репорте.
-
-                    Дата и время начала строительства скважины (ориентировочная): [дата] [время]
-                    Область: ХМАО
-                    Компания-заказчик: ООО "ЛУКОЙЛ-Западная Сибирь"
-                    Подразделение заказчика: [подразделение]
-                    Месторождение: [месторождение]
-                    Лицензионный участок: [участок]
-                    Куст: [куст]
-                    Скважина: [скважина]
-                    Назначение: Добывающая
-                    Тип скважины: ГС
-                    Тип добываемого флюида: Нефть
-                    Буровая установка: [установка]
-
-                    Спасибо!
-                </div>
-                <button class="copy-btn" onclick="copyToClipboard()">Скопировать текст</button>
+            <div class="preview-title">Предпросмотр письма</div>
+            <div class="preview-box" id="preview-tab1">
+                <button class="copy-btn" onclick="copyToClipboard('preview-tab1')">Скопировать текст</button>
+                <div id="preview-content-tab1"></div>
             </div>
         </div>
         
-        <!-- Документы по скважине -->
-        <div class="tab-content" id="tab2">
-            <h1>Запрос документов по скважине</h1>
+        <!-- Tab 2: Документы по скважине -->
+        <div id="tab2" class="tab-content">
+            <div class="form-group">
+                <label>Название скважины:</label>
+                <input type="text" id="well-name-docs" placeholder="Введите название скважины">
+            </div>
+            
+            <div class="preview-title">Предпросмотр письма</div>
+            <div class="preview-box" id="preview-tab2">
+                <button class="copy-btn" onclick="copyToClipboard('preview-tab2')">Скопировать текст</button>
+                <div id="preview-content-tab2"></div>
+            </div>
+        </div>
+        
+        <!-- Tab 3: Скважина настроена -->
+        <div id="tab3" class="tab-content">
+            <div class="form-group">
+                <label>Название скважины:</label>
+                <input type="text" id="well-name-configured" placeholder="Введите название скважины">
+            </div>
             
             <div class="form-group">
-                <p>Здравствуйте!</p>
-                <p>1. Скважина <input type="text" id="docWellNumber" placeholder="введите номер скважины" oninput="updateDocsPreview()"> заведена в системе отчетности</p>
-                <p>2. Заполнена плановая конструкция</p>
-                <p>3. Заполнен перечень подрядных организаций скопированных из скважины <input type="text" id="docRefWell1" placeholder="введите номер скважины" oninput="updateDocsPreview()"></p>
-                <p>4. Заполнен персонал на скопированных из скважины <input type="text" id="docRefWell2" placeholder="введите номер скважины" oninput="updateDocsPreview()"></p>
-                <p>5. Заполнена нормативка</p>
-                <p>Спасибо!</p>
+                <label>Скважина для копирования данных:</label>
+                <input type="text" id="well-name-copy" placeholder="Введите название скважины">
             </div>
             
-            <h2>Предпросмотр письма</h2>
-            <div class="preview-container">
-                <div class="preview-content" id="docsPreviewContent">
-                    Здравствуйте!
-                    1. Скважина [скважина] заведена в системе отчетности
-                    2. Заполнена плановая конструкция
-                    3. Заполнен перечень подрядных организаций скопированных из скважины [скважина]
-                    4. Заполнен персонал на скопированных из скважины [скважина]
-                    5. Заполнена нормативка
-                    Спасибо!
-                </div>
-                <button class="copy-btn" onclick="copyDocsToClipboard()">Скопировать текст</button>
+            <div class="preview-title">Предпросмотр письма</div>
+            <div class="preview-box" id="preview-tab3">
+                <button class="copy-btn" onclick="copyToClipboard('preview-tab3')">Скопировать текст</button>
+                <div id="preview-content-tab3"></div>
             </div>
-        </div>
-        
-        <!-- Скважина настроена -->
-        <div class="tab-content" id="tab3">
-            <h1>Скважина настроена</h1>
-            <p>Здесь будет информация о том, что скважина успешно настроена и все необходимые документы загружены.</p>
         </div>
     </div>
-    
+
     <script>
-        function switchTab(index) {
-            // Hide all tab contents
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => content.classList.remove('active'));
-            
-            // Deactivate all tabs
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            // Activate selected tab and content
-            tabs[index].classList.add('active');
-            tabContents[index].classList.add('active');
-        }
-        
-        function updatePreview() {
-            const referenceWell = document.getElementById('referenceWell').value || '[скважина]';
-            const constructionDate = document.getElementById('constructionDate').value || '[дата]';
-            const constructionTime = document.getElementById('constructionTime').value || '[время]';
-            const region = document.getElementById('region').value;
-            const customerDepartment = document.getElementById('customerDepartment').value;
-            const field = document.getElementById('field').value;
-            const licenseArea = document.getElementById('licenseArea').value;
-            const cluster = document.getElementById('cluster').value || '[куст]';
-            const wellNumber = document.getElementById('wellNumber').value || '[скважина]';
-            const purpose = document.getElementById('purpose').value;
-            const wellType = document.getElementById('wellType').value;
-            const fluidType = document.getElementById('fluidType').value;
-            const rig = document.getElementById('rig').value;
-            
-            const previewText = `Добрый день, коллеги!
-Прошу создать скважину в GOreport на сервере Лукойл-Западная Сибирь
-Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной ${referenceWell} в репорте.
-
-Дата и время начала строительства скважины (ориентировочная): ${constructionDate} ${constructionTime}
-Область: ${region}
-Компания-заказчик: ООО "ЛУКОЙЛ-Западная Сибирь"
-Подразделение заказчика: ${customerDepartment}
-Месторождение: ${field}
-Лицензионный участок: ${licenseArea}
-Куст: ${cluster}
-Скважина: ${wellNumber}
-Назначение: ${purpose}
-Тип скважины: ${wellType}
-Тип добываемого флюида: ${fluidType}
-Буровая установка: ${rig}
-
-Спасибо!`;
-            
-            document.getElementById('previewContent').textContent = previewText;
-        }
-        
-        function updateDocsPreview() {
-            const wellNumber = document.getElementById('docWellNumber').value || '[скважина]';
-            const refWell1 = document.getElementById('docRefWell1').value || '[скважина]';
-            const refWell2 = document.getElementById('docRefWell2').value || '[скважина]';
-            
-            const previewText = `Здравствуйте!
-1. Скважина ${wellNumber} заведена в системе отчетности
-2. Заполнена плановая конструкция
-3. Заполнен перечень подрядных организаций скопированных из скважины ${refWell1}
-4. Заполнен персонал на скопированных из скважины ${refWell2}
-5. Заполнена нормативка
-Спасибо!`;
-            
-            document.getElementById('docsPreviewContent').textContent = previewText;
-        }
-        
-        function copyToClipboard() {
-            const text = document.getElementById('previewContent').textContent;
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Текст скопирован в буфер обмена!');
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+                
+                // Update preview for the active tab
+                updatePreview();
             });
-        }
-        
-        function copyDocsToClipboard() {
-            const text = document.getElementById('docsPreviewContent').textContent;
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Текст скопирован в буфер обмена!');
-            });
-        }
-        
-        // Initialize date inputs with today's date
-        document.addEventListener('DOMContentLoaded', function() {
-            const today = new Date();
-            const dateStr = today.toISOString().split('T')[0];
-            const timeStr = today.toTimeString().substring(0, 5);
-            
-            document.getElementById('constructionDate').value = dateStr;
-            document.getElementById('constructionTime').value = timeStr;
-            
-            updatePreview();
-            updateDocsPreview();
         });
+        
+        // Update preview when any input changes
+        document.querySelectorAll('input, select').forEach(input => {
+            input.addEventListener('input', updatePreview);
+            input.addEventListener('change', updatePreview);
+        });
+        
+        // Format date for display
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            
+            const date = new Date(dateString);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            
+            return `${day}.${month}.${year} ${hours}:${minutes}`;
+        }
+        
+        // Update preview content based on inputs
+        function updatePreview() {
+            const activeTab = document.querySelector('.tab-content.active').id;
+            
+            if (activeTab === 'tab1') {
+                // Tab 1: Создание скважины
+                const wellNameCheck = document.getElementById('well-name-check').value;
+                const constructionDate = formatDate(document.getElementById('construction-date').value);
+                const region = document.getElementById('region').value;
+                const customerDepartment = document.getElementById('customer-department').value;
+                const field = document.getElementById('field').value;
+                const licenseArea = document.getElementById('license-area').value;
+                const cluster = document.getElementById('cluster').value;
+                const wellNumber = document.getElementById('well-number').value;
+                const purpose = document.getElementById('purpose').value;
+                const wellType = document.getElementById('well-type').value;
+                const fluidType = document.getElementById('fluid-type').value;
+                const drillingRig = document.getElementById('drilling-rig').value;
+                
+                const content = `
+                    Добрый день, коллеги!<br><br>
+                    Прошу создать скважину в GОreport на сервере Лукойл-Западная Сибирь<br>
+                    Проверьте, пожалуйста, на наличие дубликатов скважины перед созданием. А также чтобы она находилась вместе со скважиной <strong>${wellNameCheck || '[название скважины]'}</strong> в репорте.<br><br>
+                    
+                    Дата и время начала строительства скважины (ориентировочная) – <strong>${constructionDate || '[дата и время]'}</strong><br>
+                    Область – <strong>${region}</strong><br>
+                    Компания-заказчик – ООО "ЛУКОЙЛ-Западная Сибирь"<br>
+                    Подразделение заказчика – <strong>${customerDepartment}</strong><br>
+                    Месторождение – <strong>${field}</strong><br>
+                    Лицензионный участок – <strong>${licenseArea}</strong><br>
+                    Куст – <strong>${cluster || '[номер куста]'}</strong><br>
+                    Скважина – <strong>${wellNumber || '[номер скважины]'}</strong><br>
+                    Назначение – <strong>${purpose}</strong><br>
+                    Тип скважины – <strong>${wellType}</strong><br>
+                    Тип добываемого флюида: <strong>${fluidType}</strong><br>
+                    Буровая установка – <strong>${drillingRig}</strong><br><br>
+                    
+                    Спасибо!
+                `;
+                
+                document.getElementById('preview-content-tab1').innerHTML = content;
+            } 
+            else if (activeTab === 'tab2') {
+                // Tab 2: Документы по скважине
+                const wellName = document.getElementById('well-name-docs').value;
+                
+                const content = `
+                    Добрый день, уважаемые коллеги!<br><br>
+                    
+                    Большая просьба направить документы по следующей скважине <strong>${wellName || '[название скважины]'}</strong> на кусту: ГРП и нормативка<br><br>
+                    
+                    P.S. буду очень признателен за нормативку в формате Excel.<br><br>
+                    
+                    Спасибо!
+                `;
+                
+                document.getElementById('preview-content-tab2').innerHTML = content;
+            } 
+            else if (activeTab === 'tab3') {
+                // Tab 3: Скважина настроена
+                const wellName = document.getElementById('well-name-configured').value;
+                const wellNameCopy = document.getElementById('well-name-copy').value;
+                
+                const content = `
+                    <h1 style="text-align: center; font-size: 24px; margin-bottom: 20px;">Запрос документов по скважине</h1>
+                    
+                    Здравствуйте!<br><br>
+                    
+                    1. Скважина <strong>${wellName || '[название скважины]'}</strong> заведена в системе отчетности<br>
+                    2. Заполнена плановая конструкция<br>
+                    3. Заполнен перечень подрядных организаций скопированных из скважины <strong>${wellNameCopy || '[название скважины]'}</strong><br>
+                    4. Заполнен персонал на скопированных из скважины <strong>${wellNameCopy || '[название скважины]'}</strong><br>
+                    5. Заполнена нормативка<br><br>
+                    
+                    Спасибо!
+                `;
+                
+                document.getElementById('preview-content-tab3').innerHTML = content;
+            }
+        }
+        
+        // Copy to clipboard function
+        function copyToClipboard(previewBoxId) {
+            const previewBox = document.getElementById(previewBoxId);
+            const content = previewBox.querySelector('div').innerText;
+            
+            navigator.clipboard.writeText(content).then(() => {
+                const btn = previewBox.querySelector('button');
+                const originalText = btn.innerText;
+                btn.innerText = 'Скопировано!';
+                
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                }, 2000);
+            });
+        }
+        
+        // Initialize preview on load
+        document.addEventListener('DOMContentLoaded', updatePreview);
     </script>
 </body>
 </html>
