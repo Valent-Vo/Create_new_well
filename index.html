@@ -302,7 +302,7 @@
             </div>
             
             <div class="form-group">
-                <label for="well-type">Тип скважины</label>
+                <label for="well-type">Вид скважины</label>
                 <select id="well-type">
                     <option selected>ГС</option>
                     <option>МЗС</option>
@@ -348,6 +348,14 @@
                     <option>4КК</option>
                     <option>5КК</option>
                     <option>6КК</option>
+                </select>
+            </div>
+
+                        <div class="form-group">
+                <label for="contract">Тип договора</label>
+                <select id="contract">
+                    <option>CC</option>
+                    <option>РС</option>
                 </select>
             </div>
             
@@ -426,6 +434,7 @@
             const fluidType = document.getElementById('fluid-type').value;
             const rig = document.getElementById('rig').value;
             const columns = document.getElementById('columns').value;
+            const contract = document.getElementById('contract').value;
             
             const preview1 = `Добрый день, коллеги!
 
@@ -441,10 +450,11 @@
 Куст – ${cluster}
 Скважина – ${well}
 Назначение – ${purpose}
-Тип скважины – ${wellType}
+Вид скважины – ${wellType}
 Тип добываемого флюида – ${fluidType}
 Буровая установка – ${rig}
 Количество колонн - ${columns}
+Тип договора - ${contract}
 
 Спасибо!`;
             
@@ -504,6 +514,7 @@ P.S. буду очень признателен за нормативку в ф�
     </script>
 </body>
 </html>
+
 
 
 
